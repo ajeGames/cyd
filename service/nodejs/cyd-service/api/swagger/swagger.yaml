@@ -1,96 +1,117 @@
 swagger: "2.0"
 info:
-  version: "0.0.1"
-  title: Hello World App
-# during dev, should point to your local machine
+  title: Choose Your Destiny API
+  description: Service that manages choose-your-own-adventure style stories.
+  termsOfService: 'http://www.ajegames.com/blog/terms-of-use/'
+  contact:
+    name: AJE Games Support
+    url: 'http://www.ajegames.com/blog/support/'
+    email: support@ajegames.com
+  version: 0.4.0
 host: localhost:10010
-# basePath prefixes all resource paths
-basePath: /
-#
+basePath: /v1
 schemes:
   # tip: remove http to make production-grade
   - http
   - https
-# format of bodies a client can send (Content-Type)
 consumes:
   - application/json
-# format of the responses to the client (Accepts)
 produces:
   - application/json
 paths:
-  /movie:
-    # our controller name
-    x-swagger-router-controller: movie
+  /status:
+    x-swagger-router-controller: status
     get:
-      operationId: getAll
-      description: get the movies list
-      # define the type of response for Success "200" and Error
+      description: Poke the service for its status.
+      tags:
+        - admin
+      operationId: getStatus
       responses:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/GetMoviesListResponse"
+            $ref: "#/definitions/Status"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /stories:
+    x-swagger-router-controller: stories
+    get:
+      description: Get all story summaries.
+      tags:
+        - story
+      operationId: getAll
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetStoriesResponse"
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
     post:
-      operationId: save    
-      description: add a new movie to the list
-      # movie info to be stored
+      description: Start editing a new story.
+      tags:
+        - story
+      operationId: createStory
       parameters:
-        - name: title
-          description: Movie properties
+        - name: story
           in: body
+          description: Story summary
           required: true
           schema:
-            $ref: "#/definitions/Movie"
+            $ref: '#/definitions/StorySummaryUpdate'
       responses:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/GeneralResponse"
+            $ref: "#/definitions/StorySummary"
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /movie/{id}:
-    # our controller name
-    x-swagger-router-controller: movie
+  /stories/{key}:
+    x-swagger-router-controller: stories
     get:
-      operationId: getOne
-      description: get a movie
-      # define the type of response for Success "200" and Error
+      description: Get story summary.
+      tags:
+        - story
+      operationId: getStory
       parameters:
-        - name: id
-          type: string
+        - name: key
           in: path
+          description: story key
           required: true
+          type: string
       responses:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/GetMovieResponse"
+            $ref: "#/definitions/StorySummary"
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
     put:
-      operationId: update
-      description: update a movie
-      # define the parameters
+      description: Updates summary information about a story.
+      tags:
+        - story
+      operationId: updateStory
       parameters:
-        - name: id
-          description: Movie id
-          type: string
+        - name: key
           in: path
+          description: story key
           required: true
-        - name: title
-          description: Movie properties
+          type: string
+        - name: story
           in: body
+          description: Story summary
           required: true
           schema:
-            $ref: "#/definitions/Movie"
+            $ref: '#/definitions/StorySummaryUpdate'
       responses:
         "200":
           description: Success
@@ -100,16 +121,107 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-    delete:
-      operationId: delMovie
-      description: delete a movie
-      # define the parameters
+  '/stories/{key}/entire':
+    x-swagger-router-controller: stories
+    get:
+      description: Get entire story.
+      tags:
+        - story
+      operationId: getEntireStory
       parameters:
-        - name: id
-          description: Movie id
-          type: string
+        - name: key
           in: path
+          description: story key
           required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Story"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  '/stories/{key}/chapters':
+    x-swagger-router-controller: chapters
+    post:
+      description: Creates a chapter with given information.
+      tags:
+        - story
+      operationId: createChapter
+      parameters:
+        - name: key
+          in: path
+          description: story key
+          required: true
+          type: string
+        - name: chapter
+          in: body
+          description: Chapter information
+          required: true
+          schema:
+            $ref: '#/definitions/ChapterUpdate'
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Chapter"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  '/stories/{key}/chapters/{id}':
+    x-swagger-router-controller: chapters
+    get:
+      description: Gets a chapter.
+      tags:
+        - story
+      operationId: getChapter
+      parameters:
+        - name: key
+          in: path
+          description: story key
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: chapter ID
+          required: true
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Chapter"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    put:
+      description: Updates a chapter.
+      tags:
+        - story
+      operationId: updateChapter
+      parameters:
+        - name: key
+          in: path
+          description: story key
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: chapter ID
+          required: true
+          type: integer
+          format: int32
+        - name: chapter
+          in: body
+          description: Chapter information
+          required: true
+          schema:
+            $ref: '#/definitions/ChapterUpdate'
       responses:
         "200":
           description: Success
@@ -119,16 +231,110 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  '/stories/{key}/chapters/{id}/signpost':
+    x-swagger-router-controller: chapters
+    get:
+      description: Retrieves just the signpost portion of the chapter
+      tags:
+        - story
+      operationId: getSignpost
+      parameters:
+        - name: key
+          in: path
+          description: story key
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: chapter ID
+          required: true
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Signpost"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    put:
+      description: Updates signs on signpost, adding new signs as needed.  (Use delete to remove signs.)
+      tags:
+        - story
+      operationId: updateSignpost
+      parameters:
+        - name: key
+          in: path
+          description: story key
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: chapter ID
+          required: true
+          type: integer
+          format: int32
+        - name: signs
+          in: body
+          description: signs to update or add
+          required: true
+          schema:
+            $ref: '#/definitions/SignpostUpdate'
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GeneralResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /swagger:
     x-swagger-pipe: swagger_raw
-# complex objects have schema definitions
+
 definitions:
   ErrorResponse:
     required:
+      - code
       - message
     properties:
+      code:
+        type: string
       message:
         type: string
+  Chapter:
+    type: object
+    properties:
+      chapterId:
+        type: integer
+        format: int32
+      title:
+        type: string
+      prose:
+        type: string
+      signpost:
+        type: array
+        items:
+          $ref: '#/definitions/ChapterSign'
+  ChapterSign:
+    type: object
+    properties:
+      destinationId:
+        type: integer
+        format: int32
+      teaser:
+        type: string
+  ChapterUpdate:
+    type: object
+    properties:
+      title:
+        type: string
+      prose:
+        type: string
+  # GeneralResponse could be extended to include hateos links
   GeneralResponse:
     type: object
     properties:
@@ -141,43 +347,90 @@ definitions:
     required:
       - success
       - description
-  GetMoviesListResponse:
+  GetStoriesResponse:
     required:
-      - movies
+      - stories
     properties:
-      # The array of movies
-      movies:
+      stories:
         type: array
         items:
-          type: object
-          properties:
-            id:
-              type: string
-            title:
-              type: string
-            year:
-              type: number
-  GetMovieResponse:
-    required:
-      - id
-      - title
-      - year
+          $ref: '#/definitions/StorySummary'
+  Signpost:
+    type: object
     properties:
-      id:
+      chapterId:
+        type: integer
+        format: int32
+      destinations:
+        type: array
+        items:
+          $ref: '#/definitions/ChapterSign'
+  SignpostUpdate:
+    type: object
+    properties:
+      signs:
+        type: array
+        items:
+          $ref: '#/definitions/ChapterSign'
+      signsToRemove:
+        type: array
+        items:
+          type: integer
+          format: int32
+  Status:
+    type: object
+    properties:
+      statusCode:
+        type: integer
+        format: int32
+      salutation:
         type: string
-      title: 
+      version:
         type: string
-      year:
-        type: number
-  Movie:
+  Story:
+    type: object
+    properties:
+      summary:
+        $ref: '#/definitions/StorySummary'
+      chapters:
+        type: array
+        items:
+          $ref: '#/definitions/Chapter'
+  StorySummary:
+    type: object
+    properties:
+      key:
+        type: string
+      authorId:
+        type: string
+      title:
+        type: string
+      penName:
+        type: string
+      tagLine:
+        type: string
+      about:
+        type: string
+      firstChapter:
+        type: integer
+        format: int32
+      publishedAt:
+        type: string
+        format: date-time
+      version:
+        type: integer
+        format: int32
+  StorySummaryUpdate:
     type: object
     properties:
       title:
         type: string
-        description: task object name
-      year:
-        type: number
-        description: task description
-    required:
-      - title
-      - year
+      penName:
+        type: string
+      tagLine:
+        type: string
+      about:
+        type: string
+      firstChapter:
+        type: integer
+        format: int32
