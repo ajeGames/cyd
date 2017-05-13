@@ -1,0 +1,441 @@
+swagger: '2.0'
+info:
+  title: StoryTime API
+  description: Backend for managing choose-your-own-destiny style stories.
+  termsOfService: 'http://www.ajegames.com/blog/terms-of-use/'
+  contact:
+    name: AJE Games Support
+    url: 'http://www.ajegames.com/blog/support/'
+    email: saynotospam@ajegames.com
+  version: 0.3.0
+paths:
+  /status:
+    get:
+      tags:
+        - admin
+      operationId: getStatus
+      description: Gets information about the status of the StoryTime service.
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Status'
+  /members:
+    post:
+      summary: Creates a new member of the Clubhouse.
+      tags:
+        - clubhouse
+      operationId: registerMember
+      parameters:
+        - name: member
+          in: body
+          description: Member information
+          required: true
+          schema:
+            $ref: '#/definitions/Member'
+      responses:
+        '201':
+          description: Member registered
+          schema:
+            $ref: '#/definitions/Member'
+        '400':
+          description: Registration failure
+          schema:
+            $ref: '#/definitions/Error'
+  '/members/{memberId}':
+    get:
+      summary: Gets member information
+      description: Gets public member information
+      tags:
+        - clubhouse
+      operationId: getMember
+      parameters:
+        - name: memberId
+          in: path
+          description: ID of the member
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Member found
+          schema:
+            $ref: '#/definitions/Member'
+        '404':
+          description: Member not found
+          schema:
+            $ref: '#/definitions/Error'
+  /featuredStories:
+    get:
+      summary: Gets a list of featured story IDs.
+      description: Gets a list of featured story IDs. Default list is empty.
+      tags:
+        - clubhouse
+      operationId: getFeaturedStories
+      responses:
+        '200':
+          description: Story created
+          schema:
+            type: array
+            items:
+              type: string
+    put:
+      summary: Adds and removes featured stories.
+      description: Adds and removes featured stories.
+      tags:
+        - admin
+      operationId: updateFeaturedStories
+      parameters:
+        - name: toAddRemove
+          in: body
+          description: List of IDs of stories to feature
+          schema:
+            $ref: '#/definitions/FeaturedStoryUpdate'
+      responses:
+        '201':
+          description: Story created
+          schema:
+            $ref: '#/definitions/StorySummary'
+        '400':
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      summary: Clears list of featured stories.
+      description: Clears list of featured stories.
+      tags:
+        - admin
+      operationId: clearFeaturedStories
+      responses:
+        '200':
+          description: Story created
+  /stories:
+    post:
+      summary: Creates new story with given information.
+      description: 'Creates a story with the information provided, assigning a unique key.'
+      tags:
+        - storytime
+      operationId: createStory
+      parameters:
+        - name: story
+          in: body
+          description: Story summary
+          required: true
+          schema:
+            $ref: '#/definitions/StorySummary'
+      responses:
+        '201':
+          description: Story created
+          schema:
+            $ref: '#/definitions/StorySummary'
+        '400':
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/Error'
+    get:
+      summary: Gets all of the story summaries
+      description: Gets every story summary. Results might be truncated for paging.
+      tags:
+        - storytime
+      operationId: getStorySummaries
+      responses:
+        '200':
+          description: Story summaries
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/StorySummary'
+  '/stories/{storyKey}':
+    get:
+      summary: Returns story summary for given key
+      description: Returns the summary of the story indentified by key.
+      tags:
+        - storytime
+      operationId: getStorySummary
+      parameters:
+        - name: storyKey
+          in: path
+          description: unique key of story to retrieve
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Story found
+          schema:
+            $ref: '#/definitions/StorySummary'
+        '404':
+          description: Story not found
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      summary: Updates a story summary with given information.
+      description: 'Creates a story with the information provided, assigning a unique key.'
+      tags:
+        - storytime
+      operationId: updateStorySummary
+      parameters:
+        - name: storyKey
+          in: path
+          description: unique key of story to update
+          required: true
+          type: string
+        - name: story
+          in: body
+          description: Story summary
+          required: true
+          schema:
+            $ref: '#/definitions/StorySummary'
+      responses:
+        '200':
+          description: Story summary updated
+          schema:
+            $ref: '#/definitions/StorySummary'
+        '400':
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Story not found
+          schema:
+            $ref: '#/definitions/Error'
+  '/stories/{storyKey}/chapters':
+    post:
+      summary: Creates new chapter with given information.
+      description: 'Creates a chapter with the information provided, assigning a chapter ID.'
+      tags:
+        - storytime
+      operationId: createChapter
+      parameters:
+        - name: storyKey
+          in: path
+          description: key of story to add chapter to
+          required: true
+          type: string
+        - name: chapter
+          in: body
+          description: Chapter information
+          required: true
+          schema:
+            $ref: '#/definitions/Chapter'
+      responses:
+        '201':
+          description: Chapter created
+          schema:
+            $ref: '#/definitions/Chapter'
+        '400':
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/Error'
+    get:
+      summary: Gets all of the chapter of given story
+      description: Gets every chapter of given story.
+      tags:
+        - storytime
+      operationId: getChapters
+      parameters:
+        - name: storyKey
+          in: path
+          description: key of story to add chapter to
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Chapter details
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Chapter'
+  '/stories/{storyKey}/chapters/{chapterId}':
+    get:
+      summary: Retrieves chapter with given ID of story with given key.
+      description: Retrieves chapter with given ID of story with given key.
+      tags:
+        - storytime
+      operationId: getChapter
+      parameters:
+        - name: storyKey
+          in: path
+          description: unique key of story to retrieve
+          required: true
+          type: string
+        - name: chapterId
+          in: path
+          description: chapter ID
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Chapter found
+          schema:
+            $ref: '#/definitions/Chapter'
+        '404':
+          description: Chapter not found
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      summary: Updates chapter with given information.
+      description: Updates the given chapter of given story.
+      tags:
+        - storytime
+      operationId: updateChapter
+      parameters:
+        - name: storyKey
+          in: path
+          description: unique key of story to update
+          required: true
+          type: string
+        - name: chapterId
+          in: path
+          description: chapter ID
+          required: true
+          type: integer
+          format: int32
+        - name: chapter
+          in: body
+          description: Chapter information
+          required: true
+          schema:
+            $ref: '#/definitions/Chapter'
+      responses:
+        '202':
+          description: Chapter updated
+          schema:
+            $ref: '#/definitions/Chapter'
+        '400':
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Story or chapter not found
+          schema:
+            $ref: '#/definitions/Error'
+    patch:
+      summary: Replaces a portion of the chapter
+      description: >-
+        Replaces a portion of the chapter -- the prose, the signpost, etc.
+        without touching the rest
+      tags:
+        - storytime
+      operationId: patchChapter
+      parameters:
+        - name: storyKey
+          in: path
+          description: unique key of story to update
+          required: true
+          type: string
+        - name: chapterId
+          in: path
+          description: chapter ID
+          required: true
+          type: integer
+          format: int32
+        - name: chapter
+          in: body
+          description: Chapter information
+          required: true
+          schema:
+            $ref: '#/definitions/Chapter'
+      responses:
+        '202':
+          description: Chapter patched
+          schema:
+            $ref: '#/definitions/Chapter'
+        '400':
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Story or chapter not found
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Chapter:
+    type: object
+    properties:
+      chapterId:
+        type: integer
+        format: int32
+      title:
+        type: string
+      prose:
+        type: string
+      signpost:
+        type: array
+        items:
+          $ref: '#/definitions/ChapterSign'
+  ChapterSign:
+    type: object
+    properties:
+      destinationId:
+        type: integer
+        format: int32
+      teaser:
+        type: string
+  Error:
+    type: object
+    properties:
+      errorCode:
+        type: string
+      message:
+        type: string
+  FeaturedStoryUpdate:
+    type: object
+    properties:
+      toAdd:
+        type: array
+        items:
+          type: string
+      toRemove:
+        type: array
+        items:
+          type: string
+  Member:
+    type: object
+    properties:
+      screenName:
+        type: string
+      id:
+        type: string
+      identityProvider:
+        type: string
+      email:
+        type: string
+        format: email
+      joinedAt:
+        type: string
+        format: date-time
+      communicationOkay:
+        type: boolean
+  Status:
+    type: object
+    properties:
+      salutation:
+        type: string
+      status:
+        type: string
+      version:
+        type: string
+  StorySummary:
+    type: object
+    properties:
+      storyKey:
+        type: string
+      authorId:
+        type: string
+      version:
+        type: integer
+        format: int32
+      title:
+        type: string
+      penName:
+        type: string
+      tagLine:
+        type: string
+      about:
+        type: string
+      firstChapter:
+        type: integer
+        format: int32
+      publishedAt:
+        type: string
+        format: date-time

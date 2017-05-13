@@ -1,0 +1,52 @@
+/* red earth */
+/*  */
+/* baby blue gray */
+/* gray yellow greeny */
+/* subdude */
+.swatch {
+  margin: 0;
+  height: 3em; }
+
+.palatte {
+  margin: 1em 0; }
+
+.black {
+  color: #000000; }
+
+.white {
+  color: #ffffff; }
+
+.gray {
+  color: #888888; }
+
+.one {
+  background-color: #e8edf3; }
+
+.two {
+  background-color: #e6cf8b; }
+
+.three {
+  background-color: #b56969; }
+
+.four {
+  background-color: #22264b; }
+
+.five {
+  background-color: #ffffff; }
+
+.six {
+  background-color: #c9c9c9; }
+
+.seven {
+  background-color: #e3e3e3; }
+
+.eight {
+  background-color: #9ad3de; }
+
+.nine {
+  background-color: #89bdd3; }
+
+.ten {
+  background-color: #ffffff; }
+
+/*# sourceMappingURL=earthy.css.map */

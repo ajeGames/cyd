@@ -1,0 +1,19 @@
+<div id="header" class="row">
+    <h2 class="header">Story Catalog</h2>
+    <div class="instruction">Choose a Story</div>
+</div>
+<div id="main" class="row scroll-y">
+  <div class="summary" ng-repeat="story in catCtrl.catalog">
+    <div>
+        <span class="title"><a href="#/reader/{{story.key}}">{{story.title}}</a></span>
+        <span class="author">by {{story.author}}</span>
+        <a ng-href="#/editor/{{story.key}}"><img src="img/icon-edit.jpg" width="32px"></a>
+        <span ng-click="catCtrl.deleteStory(story.key)"><img src="img/icon-delete.png" width="24px"></span>
+    </div>
+    <div class="tagline">{{story.tagLine}}</div>
+    <div class="description">{{story.about}}</div>
+  </div>
+</div>
+<div id="footer" class="row">
+  <button ng-click="catCtrl.reload()">Reload</button> | <a href="#/editor/new">Start A New Story</a>
+</div>

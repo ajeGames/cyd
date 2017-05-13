@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>StoryTime -- Choose Your Own Destiny</title>
+
+    <!-- Bootstrap -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/storytime.css">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="page-header">
+        <h1 class="text-center">StoryTime <small>Choose Your Own Destiny</small></h1>
+      </div>
+
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">StoryTime</a>
+          </div>
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li><a href="catalog.html">Catalog</a></li>
+              <li><a href="player.html">Account</a></li>
+              <li><a href="reader.html">Reader</a></li>
+              <!-- use dropdown button -->
+              <li class="dropdown">
+                <a href="editor.html" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                  aria-haspopup="true" aria-expanded="false">Editor <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="story.html">Story</a></li>
+                  <li><a href="chapter.html">Chapter</a></li>
+                  <li class="active"><a href="signpost.html">Sign Post <span class="sr-only">(current)</span></a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <div id="signPost" class="panel panel-info">
+        <div class="panel-heading">Sign Post</div>
+        <div class="panel-body">
+          <ul class="list-group">
+            <li class="list-group-item">
+              <strong>Chapter 2 - <em>Into the Valley of Death</em></strong><br/>
+              Take the path that leads to the valley of death.
+            </li>
+            <li class="list-group-item">
+              <strong>Chapter 3 - <em>The &quot;Safe&quot; Road</em></strong><br/>
+              Stay on the safe road.
+            </li>
+          </ul>
+          <form>
+            <button type="button" class="btn btn-success" aria-label="Add a sign">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+              Add a Sign
+            </button>
+            <button type="button" class="btn btn-info" aria-label="Edit Sign Post">
+              <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+              Edit Signs
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div id="signPost-addSign" class="panel panel-warning">
+        <div class="panel-heading">Add a Sign</div>
+        <div class="panel-body">
+          <form id="addSignForm">
+            <div class="form-group">
+              <label for="nextChapter">Next Chapter</label>
+              <select id="nextChapter" class="form-control">
+                <option value="none">...choose the chapter this sign leads to...</option>
+                <option value="new">New Chapter</option>
+                <option value="1">1 - In the Beginning</option>
+                <option value="2">2 - Into the Valley of Death</option>
+                <option value="3">3 - The Safe Road</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Teaser</label>
+              <input name="teaser" type="text" class="form-control"
+                placeholder="Describe why the reader might choose this path"/>
+            </div>
+            <div class="form-group">
+              <button type="button" class="btn btn-warning" aria-label="Add Sign">
+                <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
+                Add Sign
+              </button>
+              <button type="button" class="btn btn-danger" aria-label="Do Not Add Sign">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div id="signPost-edit" class="panel panel-warning">
+        <div class="panel-heading">Sign Post</div>
+        <div class="panel-body">
+          <form>
+            <ul class="list-group">
+              <li class="list-group-item">
+                <div class="form-group">
+                  <strong>Chapter 2 - <em>Into the Valley of Death</em></strong><br/>
+                  <input type="text" id="teaser2" class="form-control" placeholder="Teaser"
+                    value="Take the path that leads to the valley of death." />
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="form-group">
+                  <strong>Chapter 3 - <em>The &quot;Safe&quot; Road</em></strong><br/>
+                  <input type="text" id="teaser3" class="form-control" placeholder="Teaser"
+                    value="Stay on the safe road." />
+                </div>
+              </li>
+            </ul>
+          </form>
+          <button type="button" class="btn btn-warning" aria-label="Save Sign Post">
+            <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
+            Save Changes
+          </button>
+          <button type="button" class="btn btn-danger" aria-label="Cancel Changes to Sign Post">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+            Cancel Changes
+          </button>
+        </div>
+      </div>
+
+      <div id="signPost-delete" class="panel panel-danger">
+        <div class="panel-heading">Sign Post</div>
+        <div class="panel-body">
+          <form>
+            <ul class="list-group">
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-sm-2">
+                    <button type="button" class="btn btn-danger btn-sm" aria-label="Remove Sign">
+                      <span class="glyphicon glyphicon-plus"></span>
+                      Remove
+                    </button>
+                  </div>
+                  <div class="col-sm-10">
+                    <strong>Chapter 2 - <em>Into the Valley of Death</em></strong><br/>
+                      Take the path that leads to the valley of death.
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item disabled">
+                <div class="row">
+                  <div class="col-sm-2">
+                    <button type="button" class="btn btn-success btn-sm" aria-label="Remove Sign">
+                      <span class="glyphicon glyphicon-plus"></span>
+                      Restore
+                    </button>
+                  </div>
+                  <div class="col-sm-10">
+                    <s><strong>Chapter 3 - <em>The &quot;Safe&quot; Road</em></strong><br/>
+                      Stay on the safe road.</s>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </form>
+          <button type="button" class="btn btn-warning" aria-label="Save Sign Post">
+            <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
+            Save Changes
+          </button>
+          <button type="button" class="btn btn-danger" aria-label="Cancel Changes to Sign Post">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+            Cancel Changes
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery-1.12.4.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>

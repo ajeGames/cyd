@@ -1,0 +1,70 @@
+{
+  "summary": {
+    "storyKey": "5qcao3fu",
+    "title": "Where the Water Goes",
+    "penName": "Mr. Bubbles",
+    "tagLine": "Round and round and down and down",
+    "about": "What happens when someone pulls the plug?",
+    "firstChapter": 1000
+  },
+  "chapters": [
+    {
+      "chapterId": 1000,
+      "heading": "The Bath",
+      "prose": "You are enjoying a warm bath at the end of a long day.  After a while, you feel a suggestion of a tug and don't think much of it.  Soon you are certain that you are headed for the drain.",
+      "signpost": [
+        {
+          "destinationId": 1001,
+          "teaser": "Fight the current."
+        },
+        {
+          "destinationId": 1002,
+          "teaser": "Relax and enjoy the ride."
+        }
+      ]
+    },
+    {
+      "chapterId": 1001,
+      "heading": "The Struggle",
+      "prose": "You turn tail and start swimming away from the force.",
+      "signpost": [
+        {
+          "destinationId": 1003,
+          "teaser": "Head for the toy and hope for the best."
+        },
+        {
+          "destinationId": 1004,
+          "teaser": "Close your eyes and await your fate."
+        },
+        {
+          "destinationId": 1005,
+          "teaser": "Give up and swim with the current.  Might as well get it over with."
+        }
+      ]
+    },
+    {
+      "chapterId": 1002,
+      "heading": null,
+      "prose": null,
+      "signpost": []
+    },
+    {
+      "chapterId": 1003,
+      "heading": null,
+      "prose": null,
+      "signpost": []
+    },
+    {
+      "chapterId": 1004,
+      "heading": null,
+      "prose": null,
+      "signpost": []
+    },
+    {
+      "chapterId": 1005,
+      "heading": null,
+      "prose": null,
+      "signpost": []
+    }
+  ]
+}

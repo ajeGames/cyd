@@ -1,0 +1,32 @@
+@import 'reset';
+@import 'font-stacks';
+@import 'color-palettes';
+
+$site-fonts: $font-stack-verdana;
+$reader-fonts: $font-stack-georgia;
+
+/*
+$color-chapter-title: $palette-babybluegray-color1;
+$color-reader: $palette-babybluegray-color2;
+$color-title-bar: $palette-babybluegray-color3;
+$color-page-header: $palette-babybluegray-color4;
+*/
+
+/*
+$color-page-header: $palette-redearth-color1;
+$color-page-header-text: white;
+$color-title-bar: $palette-redearth-color4;
+$color-chapter-title: $palette-redearth-color3;
+$color-reader: $palette-redearth-color2;
+*/
+
+$color-page-header: $palette-romanianflag-color4;
+$color-page-header-text: white;
+$color-title-bar: $palette-romanianflag-color3;
+$color-chapter-title: $palette-romanianflag-color2;
+$color-reader: $palette-romanianflag-color1;
+
+.swatch {
+  margin: 0;
+  height: 3em;
+}

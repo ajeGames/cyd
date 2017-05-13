@@ -1,0 +1,13 @@
+{
+  "fromChapterId": 1000,
+  "signpost": [
+    {
+      "destinationId": 1001,
+      "teaser": "Take a walk in the rain."
+    },
+    {
+      "destinationId": 1002,
+      "teaser": "Stay inside."
+    }
+  ]
+}

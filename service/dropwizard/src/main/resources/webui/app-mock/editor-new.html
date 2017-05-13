@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Story Editor</title>
+    <link rel="stylesheet" type="text/css" href="storytime.css"/>
+</head>
+<body>
+    <div id="header" class="row">
+        <h2 class="header">Story Information</h2>
+    </div>
+    <div id="main" class="row scroll-y">
+        <div class="instruction">Describe Your Story</div>
+        <form>
+            <ul class="form-style-1">
+                <li>
+                    <label>Title:</label>
+                    <input type="text" name="title" class="field-long"/>
+                </li>
+                <li>
+                    <label>Author:</label> <input type="text" name="author" class="field-long"/>
+                </li>
+                <li>
+                    <label>Tag Line:</label> <input type="text" name="tagLine" class="field-long"/>
+                </li>
+                <li>
+                    <label>Description:</label> <textarea name="about" class="field-long field-textarea"></textarea>
+                </li>
+                <li>
+                    <!-- adapt style to apply to button element
+                    <button>Create Story</button> (<a href="editor-chapter.html">Go</a>)
+                    -->
+                    <input type="submit" value="Create Story" /> (<a href="editor-chapter.html">Go</a>)
+                </li>
+            </ul>
+        </form>
+    </div>
+    <div id="footer" class="row">
+        <a href="index.html">Home</a>
+    </div>
+</body>
+</html>

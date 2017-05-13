@@ -1,0 +1,22 @@
+<div id="header" class="row">
+    <h2 class="header">Story Reader</h2>
+    <div>
+        <span class="title">{{readerCtrl.storySummary.title}}</span>
+        <span class="author">by {{readerCtrl.storySummary.author}}</span>
+    </div>
+</div>
+
+<div id="main" class="row scroll-y">
+    <div class="chapterTitle">{{readerCtrl.activeChapter.heading}}</div>
+    <div id="prose">{{readerCtrl.activeChapter.prose}}</div>
+    <div id="nextChapters" ng-hide="readerCtrl.isTheEnd()">
+        <div class="instruction">Choose your next step.</div>
+        <div ng-repeat="option in readerCtrl.activeChapter.nextChapterOptions" class="nextChapterOption">
+            <a href="#/reader/{{readerCtrl.storySummary.key}}/{{option.targetChapterId}}">{{option.teaser}}</a></div>
+    </div>
+</div>
+
+<div id="footer" class="row">
+  <div><a href="#/reader/{{readerCtrl.storySummary.key}}/0">Return to Chapter One</a></div>
+  <div><a href="#/catalog">Choose Another Story</a></div>
+</div>

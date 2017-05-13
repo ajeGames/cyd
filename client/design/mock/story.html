@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>StoryTime -- Choose Your Own Destiny</title>
+
+    <!-- Bootstrap -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/storytime.css">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="page-header">
+        <h1 class="text-center">StoryTime <small>Choose Your Own Destiny</small></h1>
+      </div>
+
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">StoryTime</a>
+          </div>
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li><a href="catalog.html">Catalog</a></li>
+              <li><a href="player.html">Account</a></li>
+              <li><a href="reader.html">Reader</a></li>
+              <!-- use dropdown button -->
+              <li class="dropdown">
+                <a href="editor.html" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                  aria-haspopup="true" aria-expanded="false">Editor <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li class="active"><a href="story.html">Story <span class="sr-only">(current)</span></a></li>
+                  <li><a href="chapter.html">Chapter</a></li>
+                  <li><a href="signpost.html">Sign Post</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <div id="story" class="panel panel-info">
+        <div class="panel-heading">Story Information</div>
+        <div class="panel-body">
+          <p><strong>Title</strong><br/>War and Pieces</p>
+          <p><strong>About</strong><br/>The dastardly adventures of a hapless warrior who finds himself trapped in ancient times.</p>
+          <p><strong>Tag Line</strong><br/>Watch out for the trap door.</p>
+          <div class="row form-field">
+            <div class="col-xs-12">
+              <form>
+                <button type="button" class="btn btn-success" aria-label="Change Story Information">
+                  <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                  Change Story Information
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="story-edit" class="panel panel-warning">
+        <div class="panel-heading">Story Information</div>
+        <div class="panel-body">
+          <form>
+            <div class="form-group">
+              <label for="storyTitle">Title</label>
+              <input id="storyTitle" type="text" class="form-control" placeholder="What is the title of the story?"/>
+            </div>
+            <div class="form-group">
+              <label for="about">About</label>
+              <input id="about" type="text" class="form-control" placeholder="Summarize what the story is about"/>
+            </div>
+            <div class="form-group">
+              <label for="tagLine">Tag Line</label>
+              <input id="tagLine" type="text" class="form-control" placeholder="Attract attention with a catchy phrase"/>
+            </div>
+            <button type="button" class="btn btn-warning" aria-label="Save Story Info">
+              <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
+              Save Story Info
+            </button>
+            <button type="button" class="btn btn-danger" aria-label="Cancel Changes">
+              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+              Cancel Changes
+            </button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery-1.12.4.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+{
+  "summary": {
+    "storyKey": "o9s0toym",
+    "title": "The Cave",
+    "penName": "Bubba Gump",
+    "tagLine": "What lies beneath",
+    "about": "See where your choices lead.  You can choose your own destiny, but can you escape fate?",
+    "firstChapter": 1000
+  },
+  "chapters": [
+    {
+      "chapterId": 1000,
+      "heading": "The Cave",
+      "prose": "It's a nice day, so you decide to go for a walk.  As you stroll along, you see a clearing with an outcrop of rocks.  Something is unusual about these rocks, some blackness unlike the surrounding soil.  You notice that this is an opening to a cave.  It is dark inside, and you wonder how far it goes.\n\nWhat would you like to do?",
+      "signpost": [
+        {
+          "destinationId": 1001,
+          "teaser": "Step inside."
+        },
+        {
+          "destinationId": 1002,
+          "teaser": "Continue walking."
+        }
+      ]
+    },
+    {
+      "chapterId": 1001,
+      "heading": "A Cool Breeze",
+      "prose": "As your eyes adjust to the light, you feel a cool breeze on your face.  You are drawn toward the musty smells as curiosity takes over.",
+      "signpost": [
+        {
+          "destinationId": 1003,
+          "teaser": "Walk toward the breeze."
+        },
+        {
+          "destinationId": 1004,
+          "teaser": "Explore the room you are in."
+        },
+        {
+          "destinationId": 1005,
+          "teaser": "Leave the cave."
+        }
+      ]
+    },
+    {
+      "chapterId": 1002,
+      "heading": "You Die!",
+      "prose": "Unfortunately, fate is not on your side today.  As you step around the rocks, you are bitten by a rattlesnake.  Now you realize what that ominous noise was.  If only you had been paying attention.\n\nSorry.",
+      "signpost": []
+    },
+    {
+      "chapterId": 1003,
+      "heading": "Slippery Slope",
+      "prose": "As you head further into the cave, the floor becomes moist.  As you continue, things get slippery.  Next thing you know, you are sliding uncontrollably.",
+      "signpost": []
+    },
+    {
+      "chapterId": 1004,
+      "heading": "Treasure",
+      "prose": "You notice part of the cave floor is hollow.  With a little digging, you discover a treasure chest.  You are set for life.",
+      "signpost": []
+    },
+    {
+      "chapterId": 1005,
+      "heading": null,
+      "prose": null,
+      "signpost": []
+    }
+  ]
+}

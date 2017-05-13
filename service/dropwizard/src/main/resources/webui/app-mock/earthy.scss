@@ -1,0 +1,105 @@
+//$p1c1: #d1c5b7;
+//$p1c2: #85b941;
+//$p1c3: #735d41;
+//$p1c4: #0193b7;
+//$p1c5: #063e53;
+
+/* red earth */
+//$p1c1: #796e24;
+//$p1c2: #f9df8d;
+//$p1c3: #ee9c21;
+//$p1c4: #ea7d24;
+//$p1c5: #a34e24;
+
+/* matte gray-red-yellow-blue */
+$p1c1: #e8edf3;
+$p1c2: #e6cf8b;
+$p1c3: #b56969;
+$p1c4: #22264b;
+$p1c5: #ffffff;
+
+/* baby blue gray */
+$p2c1: #c9c9c9;
+$p2c2: #e3e3e3;
+$p2c3: #9ad3de;
+$p2c4: #89bdd3;
+$p2c5: #ffffff;
+
+/* gray yellow greeny */
+//$p2c1: #dddfd4;
+//$p2c2: #fae596;
+//$p2c3: #3fb0ac;
+//$p2c4: #173e43;
+//$p2c5: #ffffff;
+
+/* subdude */
+//$p2c1: #c5d5cb;
+//$p2c2: #9fa8a3;
+//$p2c3: #e3e0cf;
+//$p2c4: #ffffff;
+//$p2c5: #000000;
+
+$black: #000000;
+$white: #ffffff;
+$gray: #888888;
+
+.swatch {
+  margin: 0;
+  height: 3em;
+}
+
+.palatte {
+  margin: 1em 0;
+}
+
+.black {
+  color: #000000;
+}
+
+.white {
+  color: #ffffff;
+}
+
+.gray {
+  color: #888888;
+}
+
+.one {
+  background-color: $p1c1;
+}
+
+.two {
+  background-color: $p1c2;
+}
+
+.three {
+  background-color: $p1c3;
+}
+
+.four {
+  background-color: $p1c4;
+}
+
+.five {
+  background-color: $p1c5;
+}
+
+.six {
+  background-color: $p2c1;
+}
+
+.seven {
+  background-color: $p2c2;
+}
+
+.eight {
+  background-color: $p2c3;
+}
+
+.nine {
+  background-color: $p2c4;
+}
+
+.ten {
+  background-color: $p2c5;
+}

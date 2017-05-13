@@ -1,0 +1,77 @@
+@import 'global-styles';
+
+body {
+  font-family: $font-stack-verdana;
+}
+
+#header, #footer {
+  padding: 0.5em 3em;
+  background-color: $color-page-header;
+  color: $color-page-header-text;
+  font-size: x-large;
+  font-weight: bold;
+  text-align: center;
+}
+
+#title {
+  padding: 0.5em;
+  background-color: $color-title-bar;
+  text-align: center;
+  font-family: $font-stack-garamond;
+}
+
+#reader {
+  width: 80%;
+  float: left;
+}
+
+#chapter {
+  background-color: $color-reader;
+}
+
+#chapter_title {
+  padding: 0.5em;
+  background-color: $color-chapter-title;
+  text-align: center;
+  font-family: $font-stack-garamond;
+}
+
+#prose {
+  padding: 0.5em 2em 2em 2em;
+}
+
+#prose {
+  div, p, li {
+    font-family: $font-stack-garamond;
+  }
+}
+#middle{
+  margin: 0 2em 0 0;
+}
+
+#sidebar {
+  float: right;
+  margin-top: 2em;
+}
+
+#footer {
+  clear: both;
+}
+
+p {
+  margin-top: 1em;
+}
+
+.adbox {
+  padding-bottom: 2em;
+}
+
+#signpost {
+  ul {
+    margin-left: 5em;
+    list-style-image: url('small_sign.png');
+    li {
+      padding-bottom: 0.5em;
+    }
+  }
+}

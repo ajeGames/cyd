@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Story Editor</title>
+    <link rel="stylesheet" type="text/css" href="storytime.css"/>
+</head>
+<body>
+
+    <div id="header" class="row">
+        <span class="title">A Tale of Two Cities</span> <span class="author">by Charles Dickens</span>
+        <a href="editor.html"><img src="img/school-pencil.png" width="25"/></a>
+    </div>
+    <div id="main" class="row scroll-y">
+        <div class="instruction">Edit chapter #1</div>
+        <form>
+            <ul class="form-style-1">
+                <li>
+                    <label>Chapter Title:</label>
+                    <input type="text" name="chapterTitle" class="field-long" value="The Period"/>
+                </li>
+                <li>
+                    <label>Teaser:</label> <input type="text" name="teaser" class="field-long" value="It was the best of times, it was the worst of times..."/>
+                </li>
+                <li>
+                    <label>Prose:</label>
+                <textarea name="about" class="field-long field-textarea">It was the best of times,
+it was the worst of times,
+it was the age of wisdom,
+it was the age of foolishness,
+it was the epoch of belief,
+it was the epoch of incredulity,
+it was the season of Light,
+it was the season of Darkness,
+it was the spring of hope,
+it was the winter of despair,
+
+we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way— in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only.
+                </textarea>
+                </li>
+                <li>
+                    <!-- TODO adapt style to button element
+                    <button>Create Story</button> (<a href="editor-chapter.html">Go</a>)
+                    -->
+                    <input type="submit" value="Save Changes" /> (<a href="editor-chapter.html">Go</a>)
+                </li>
+            </ul>
+            <hr>
+            <div class="instruction">Review options for what comes next</div>
+            <ul class="form-style-1a">
+                <label>Available options:</label>
+                <li>Go to the right. <a href="editor.html"><img src="img/icon-edit.jpg" width="25"/></a> <img src="img/x.png" width="20"/></li>
+                <li>Go to the left. <a href="editor.html"><img src="img/fat-pencil.png" width="25"/></a> <img src="img/x.png" width="20"/></li>
+            </ul>
+            <ul class="form-style-1">
+                <li>
+                    <label>New Option:</label>
+                    <input type="text" name="nextChapterTeaser" class="field-long"/>
+                    <input type="submit" value="Add Chapter"/>
+                </li>
+            </ul>
+        </form>
+
+    </div>
+    <div id="footer" class="row">
+        <a href="index.html">Home</a>
+    </div>
+
+</body>
+</html>

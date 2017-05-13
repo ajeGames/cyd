@@ -1,0 +1,13 @@
+{
+  "storyKey": "1234abcd",
+  "authorId": "ARN::normal author",
+  "version": 0,
+  "title": "normal title",
+  "penName": "normal author",
+  "tagLine": "this is a normal tag line",
+  "about": "what it is normally about",
+  "extra": "this is not supported",
+  "firstChapter": 1000,
+  "publishedAt": null,
+  "somethingElse": "that should be ignored"
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Story Editor</title>
+    <link rel="stylesheet" type="text/css" href="storytime.css"/>
+</head>
+<body>
+    <div id="header" class="row">
+        <h2 class="header">Story Information</h2>
+    </div>
+    <div id="main" class="row scroll-y">
+        <div class="instruction">Review and Update</div>
+        <form>
+            <ul class="form-style-1">
+                <li>
+                    <label>Title:</label>
+                    <input type="text" name="title" class="field-long" value="A Tale of Two Cities"/>
+                </li>
+                <li>
+                    <label>Author:</label> <input type="text" name="author" class="field-long" value="Charles Dickens"/>
+                </li>
+                <li>
+                    <label>Tag Line:</label> <input type="text" name="tagLine" class="field-long" value="Watch your step for change is upon us."/>
+                </li>
+                <li>
+                    <label>Description:</label>
+                    <textarea name="description" class="field-long field-textarea">This is a long about of the story, something that would go on the back cover to entice the reader to spend time reading.
+                    </textarea>
+                </li>
+                <li>
+                    <!-- TODO adapt style to button element
+                    <button>Create Story</button> (<a href="editor-chapter.html">Go</a>)
+                    -->
+                    <input type="submit" value="Save Changes" /> (<a href="editor-chapter.html">Go</a>)
+                </li>
+            </ul>
+        </form>
+    </div>
+    <div id="footer" class="row">
+        <a href="index.html">Home</a>
+    </div>
+</body>
+</html>

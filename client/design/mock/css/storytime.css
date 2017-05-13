@@ -1,0 +1,23 @@
+.masthead {
+  margin: 1em 0 0 0;
+  font-size: 300%;
+  font-weight: bold;
+  text-align: center;
+}
+
+.form-field {
+  margin-bottom: 0.5em;
+}
+
+.signpost {
+  margin-top: 2em;
+  border: dotted green 2px;
+  padding: 1em;
+}
+/*
+$palette-redearth-color1: #796e24;
+$palette-redearth-color2: #f9df8d;
+$palette-redearth-color3: #ee9c21;
+$palette-redearth-color4: #ea7d24;
+$palette-redearth-color5: #a34e24;
+*/

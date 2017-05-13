@@ -1,0 +1,84 @@
+    <div id="header" class="row">
+        <h2 class="header">Story Editor</h2>
+    </div>
+
+    <div id="main" class="row scroll-y">
+        <div class="instruction">Story Information</div>
+        <div ng-show="editorCtrl.isEditSummary()">
+            <form>
+                <ul class="form-style-1">
+                    <li>
+                        <label>Title:</label>
+                        <input type="text" ng-model="editorCtrl.draftSummary.title" class="field-long"/>
+                    </li>
+                    <li>
+                        <label>Author:</label> <input type="text" ng-model="editorCtrl.draftSummary.author" class="field-long"/>
+                    </li>
+                    <li>
+                        <label>Tag Line:</label> <input type="text" ng-model="editorCtrl.draftSummary.tagLine" class="field-long"/>
+                    </li>
+                    <li>
+                        <label>Description:</label>
+                        <textarea ng-model="editorCtrl.draftSummary.about" class="field-long field-textarea"></textarea>
+                    </li>
+                    <li>
+                        <label>Opening Scene Teaser:</label>
+                        <input type="text" ng-model="editorCtrl.draftSummary.firstChapter.teaser" class="field-long"/>
+                    </li>
+                    <li>
+                        <button ng-click="editorCtrl.saveDraftSummary()">Save Story</button> (Key: {{editorCtrl.draftSummary.key}})<br/>
+                        <a ng-hide="editorCtrl.draftSummary.key === undefined" ng-href="#/editor/{{editorCtrl.draftSummary.key}}/{{editorCtrl.draftSummary.firstChapter.targetChapterId}}">Edit First Chapter</a>
+                    </li>
+                </ul>
+            </form>
+        </div>
+        <div ng-show="editorCtrl.isEditChapter()">
+            <div>Title: {{editorCtrl.draftSummary.title}}  By: {{editorCtrl.draftSummary.author}}
+                <a ng-href="#/editor/{{editorCtrl.draftSummary.key}}"><img src="img/icon-edit.jpg" width="32px"></a></div>
+            <div>Tag Line: {{editorCtrl.draftSummary.tagLine}}</div>
+            <div>About: {{editorCtrl.draftSummary.about}}</div>
+            <hr/>
+        </div>
+        <div ng-show="editorCtrl.isEditChapter()">
+            <div class="instruction">Chapter #{{editorCtrl.draftChapter.id}} Information</div>
+            <form>
+                <!-- chapter -->
+                <ul class="form-style-1">
+                    <li>
+                        <label>Chapter Header:</label>
+                        <input type="text" ng-model="editorCtrl.draftChapter.heading" class="field-long"/>
+                    </li>
+                    <li>
+                        <label>Scene:</label>
+                        <textarea ng-model="editorCtrl.draftChapter.prose" class="field-long field-textarea"></textarea>
+                    </li>
+                    <li>
+                        <button ng-click="editorCtrl.saveDraftChapter()">Save Chapter</button>
+                    </li>
+                </ul>
+                <!-- next chapter options -->
+                <ul class="form-style-1">
+                    <li>
+                        <label>Next Chapter Options:</label>
+                        <div ng-repeat="nextChapter in editorCtrl.draftChapter.nextChapterOptions">
+                            <a href="#/editor/{{editorCtrl.draftSummary.key}}/{{nextChapter.targetChapterId}}">Chapter #{{nextChapter.targetChapterId}}</a>
+                            {{nextChapter.teaser}}
+                            <button ng-click="editorCtrl.removeChapterOption(nextChapter.targetChapterId)">Remove</button><br/>
+                        </div>
+                    </li>
+                    <li>
+                        Create Another Option:
+                        <input type="text" ng-model="editorCtrl.nextChapterTeaser" class="field-long"/>
+                    </li>
+                    <li>
+                        <button ng-click="editorCtrl.addChapterOption()">Add Next Chapter</button>
+                    </li>
+                </ul>
+            </form>
+        </div>
+
+    </div>
+    <div id="footer" class="row">
+        <a href="#/catalog">Catalog</a>
+        <a href="index.html">Home</a>
+    </div>

@@ -1,0 +1,15 @@
+.idea
+*.iml
+target
+.DS_Store
+node_modules/
+dist
+dependency-reduced-pom.xml
+.sass-cache/
+*.css.map
+npm-debug.log
+*.db
+lib/
+jspm_packages/
+.serverless/
+*.bsdesign

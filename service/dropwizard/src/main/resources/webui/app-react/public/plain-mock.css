@@ -1,0 +1,42 @@
+body {
+    font-family: Vandana, Helvetica, sans-serif;
+    background-color: gold;
+}
+
+.frame {
+    margin: 1em;
+}
+
+.section {
+    margin: 0.5em;
+    border: groove lightcyan 4px;
+    padding: 0.5em;
+    background-color: #4B99AD;
+}
+
+.search-results-odd {
+    background-color: paleturquoise;
+}
+
+.search-results-even {
+    background-color: white;
+}
+
+#masthead {
+    text-align: center;
+}
+
+.title {
+    font-weight: bold;
+    font-size: large;
+}
+
+.author {
+    font-size: large;
+}
+
+.chapterTitle {
+    margin: 0.5em 0;
+    font-weight: bold;
+    font-size: large;
+}
