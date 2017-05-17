@@ -1,0 +1,41 @@
+[
+  {
+    "key": "abcd0001",
+    "version": 1,
+    "summary": {
+      "authorId": "e49a7252-acbc-4ca8-976c-17624fea822c",
+      "title": "Frost Bite",
+      "penName": "Buster V.",
+      "tagLine": "Don't touch the water.",
+      "about": "Buster V. brings us another ironic adventure full of intrigue.  Test your wits?",
+      "firstChapter": 1000,
+      "publishedAt": "2017-02-17T01:45:55Z"
+    }
+  },
+  {
+    "key": "efgh1234",
+    "version": 1,
+    "summary": {
+      "authorId": "64f0be1c-c2a9-40d9-96fb-820aac3a4099",
+      "title": "Punchy Whale",
+      "penName": "Buster V.",
+      "tagLine": "Don't touch the water.",
+      "about": "This is the challenge you have been searching for.  Will you be able to find the prize?",
+      "firstChapter": 1000,
+      "publishedAt": "2017-05-17T02:03:01Z"
+    }
+  },
+  {
+    "key": "zyxv0042",
+    "version": 1,
+    "summary": {
+      "authorId": "e49a7252-acbc-4ca8-976c-17624fea822c",
+      "title": "Bring Home the Bacon",
+      "penName": "Buster V.",
+      "tagLine": "Who's hungry?",
+      "about": "Your family is starving, literally.  You need to do something fast, but you also need to survive.",
+      "firstChapter": 1000,
+      "publishedAt": null
+    }
+  }
+]

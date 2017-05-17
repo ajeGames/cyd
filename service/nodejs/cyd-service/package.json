@@ -1,6 +1,11 @@
 {
   "name": "cyd-service",
   "version": "0.0.1",
+  "eslintConfig": {
+    "env": {
+      "node": true
+    }
+  },
   "private": true,
   "description": "New Swagger API Project",
   "keywords": [],
@@ -8,8 +13,10 @@
   "license": "",
   "main": "app.js",
   "dependencies": {
+    "aws-sdk": "^2.51.0",
     "crypto": "^0.0.3",
     "express": "^4.12.3",
+    "fs": "^0.0.1-security",
     "swagger-express-mw": "^0.1.0"
   },
   "devDependencies": {
