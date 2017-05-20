@@ -1,8 +1,8 @@
 var storiesDataAccess = require('../persistence/stories-db');
 
 exports.getStory = function(req, res) {
-  console.log('getStory called at', new Date());
   var key = req.swagger.params.key.value;
+  console.log('getStory called with key {', key,'} at', new Date());
   var callback = function(data) {
     if (data) {
       res.json(data);

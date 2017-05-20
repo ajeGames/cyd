@@ -13,6 +13,19 @@
     }
   },
   {
+    "key": "abcd0001",
+    "version": 2,
+    "summary": {
+      "authorId": "e49a7252-acbc-4ca8-976c-17624fea822c",
+      "title": "Frost Bite",
+      "penName": "Buster V. Crumb",
+      "tagLine": "Is it me, or is it getting cold in here?",
+      "about": "Buster V. brings us another ironic adventure full of intrigue.  Test your wits and stay warm?",
+      "firstChapter": 1000,
+      "publishedAt": "2017-04-06T11:23:07Z"
+    }
+  },
+  {
     "key": "efgh1234",
     "version": 1,
     "summary": {
