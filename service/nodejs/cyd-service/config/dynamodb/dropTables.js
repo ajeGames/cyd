@@ -7,7 +7,9 @@ AWS.config.update({
 
 var dynamodb = new AWS.DynamoDB();
 
-var tablesToDrop = ["Stories", "PublishedStories", "DraftStories"];
+console.log('==> Dropping tables...');
+
+var tablesToDrop = ["Stories", "Chapters"];
 
 tablesToDrop.forEach(function(table) {
   var params = {
@@ -22,4 +24,3 @@ tablesToDrop.forEach(function(table) {
     }
   })
 });
-

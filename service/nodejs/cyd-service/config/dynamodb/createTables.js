@@ -1,4 +1,5 @@
 var AWS = require("aws-sdk");
+var fs = require('fs');
 
 AWS.config.update({
   region: "us-west-2",
@@ -7,9 +8,11 @@ AWS.config.update({
 
 var dynamodb = new AWS.DynamoDB();
 
+console.log('==> Creating tables...');
+
 var tableParamSets = [
   {
-    TableName: "PublishedStories",
+    TableName: "Stories",
     KeySchema: [
       {AttributeName: "key", KeyType: "HASH"},
       {AttributeName: "version", KeyType: "RANGE"}
@@ -24,41 +27,14 @@ var tableParamSets = [
     }
   },
   {
-    TableName: "DraftStories",
+    TableName: "Chapters",
     KeySchema: [
-      {AttributeName: "key", KeyType: "HASH"}
+      {AttributeName: "storyKey", KeyType: "HASH"},
+      {AttributeName: "chapterId", KeyType: "RANGE"}
     ],
     AttributeDefinitions: [
-      {AttributeName: "key", AttributeType: "S"}
-    ],
-    ProvisionedThroughput: {
-      ReadCapacityUnits: 1,
-      WriteCapacityUnits: 1
-    }
-  },
-  {
-    TableName: "PublishedChapters",
-    KeySchema: [
-      {AttributeName: "key", KeyType: "HASH"},
-      {AttributeName: "idVersion", KeyType: "RANGE"}
-    ],
-    AttributeDefinitions: [
-      {AttributeName: "key", AttributeType: "S"},
-      {AttributeName: "idVersion", AttributeType: "S"}
-    ],
-    ProvisionedThroughput: {
-      ReadCapacityUnits: 1,
-      WriteCapacityUnits: 1
-    }
-  },
-  {
-    TableName: "DraftChapters",
-    KeySchema: [
-      {AttributeName: "key", KeyType: "HASH"}
-    ],
-    AttributeDefinitions: [
-      {AttributeName: "key", AttributeType: "S"},
-      {AttributeName: "id", AttributeType: "N"}
+      {AttributeName: "storyKey", AttributeType: "S"},
+      {AttributeName: "chapterId", AttributeType: "S"}
     ],
     ProvisionedThroughput: {
       ReadCapacityUnits: 1,
