@@ -1,6 +1,8 @@
 var AWS = require("aws-sdk");
 
-exports.retrievePublishedStory = function(key, callback) {
+var storyTableName = "Stories";
+
+exports.retrieveLatestPublishedStory = function(key, callback) {
   AWS.config.update({
     region: "us-west-2",
     endpoint: "http://localhost:8000"
@@ -8,31 +10,57 @@ exports.retrievePublishedStory = function(key, callback) {
 
   var docClient = new AWS.DynamoDB.DocumentClient();
   var params = {
-    TableName: "PublishedStories",
+    TableName: storyTableName,
     Limit: 1,
     ScanIndexForward: false,
-    KeyConditionExpression: "#key = :v1",
+    KeyConditionExpression: "#key = :v1 and version > :v2",
     ExpressionAttributeNames: {
       "#key": "key"
     },
     ExpressionAttributeValues: {
-      ":v1": key
+      ":v1": key,
+      ":v2": 0
     }
   };
 
-  var request = docClient.query(params);
-  var promise = request.promise();
-
+  var promise = docClient.query(params).promise();
   promise.then(
     function(data) {
       callback(mapStoryDbToApi(data));
     },
     function(error) {
       console.log('error:', error);
-      console.log('query params used:', params);
+      console.log('params used:', params);
       callback(null);
     }
   );
+};
+
+exports.retrieveDraftStory = function(key, callback) {
+  AWS.config.update({
+    region: "us-west-2",
+    endpoint: "http://localhost:8000"
+  });
+
+  var docClient = new AWS.DynamoDB.DocumentClient();
+  var params = {
+    TableName: storyTableName,
+    Key: {
+      "key": key,
+      "version": -1
+    }
+  };
+  var promise = docClient.get(params).promise();
+  promise.then(
+    function(data) {
+      callback(mapStoryDbToApi(data));
+    },
+    function(error) {
+      console.log('error:', error);
+      console.log('params used:', params);
+      callback(null);
+    }
+  )
 };
 
 function mapStoryDbToApi(data) {

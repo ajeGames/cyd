@@ -15,5 +15,23 @@ exports.getStory = function(req, res) {
       res.json(error);
     }
   };
-  storiesDataAccess.retrievePublishedStory(key, callback);
+  storiesDataAccess.retrieveLatestPublishedStory(key, callback);
 };
+
+exports.getDraftStory = function(req, res) {
+  var key = req.swagger.params.key.value;
+  console.log('getDraftStory called with key {', key,'} at', new Date());
+  var callback = function(data) {
+    if (data) {
+      res.json(data);
+    } else {
+      var error = {
+        code: '404',
+        message: 'Story was not found for key: ' + key
+      };
+      res.status(404);
+      res.json(error);
+    }
+  };
+  storiesDataAccess.retrieveDraftStory(key, callback);
+}

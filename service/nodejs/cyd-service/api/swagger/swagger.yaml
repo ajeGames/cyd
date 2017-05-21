@@ -121,6 +121,28 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  '/stories/{key}/draft':
+    x-swagger-router-controller: stories
+    get:
+      description: Get draft story summary if one exists.
+      tags:
+        - story
+      operationId: getDraftStory
+      parameters:
+        - name: key
+          in: path
+          description: story key
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/StorySummary"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   '/stories/{key}/entire':
     x-swagger-router-controller: stories
     get:
