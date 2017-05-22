@@ -42,7 +42,7 @@ paths:
       description: Get all story summaries.
       tags:
         - story
-      operationId: getAll
+      operationId: getAllPublished
       responses:
         "200":
           description: Success
