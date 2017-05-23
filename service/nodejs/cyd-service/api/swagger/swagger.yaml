@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
   title: Choose Your Destiny API
-  description: Service that manages choose-your-own-adventure style stories.
+  description: Service that manages choose-your-own-adventure style stories. This API handles retrieval of published stories as well as creation and updates to stories in draft mode.  Draft stories can also be published using this API.
   termsOfService: 'http://www.ajegames.com/blog/terms-of-use/'
   contact:
     name: AJE Games Support
@@ -39,7 +39,7 @@ paths:
   /stories:
     x-swagger-router-controller: stories
     get:
-      description: Get all story summaries.
+      description: Get all story summaries of published stories.
       tags:
         - story
       operationId: getAllPublished
@@ -76,7 +76,7 @@ paths:
   /stories/{key}:
     x-swagger-router-controller: stories
     get:
-      description: Get story summary.
+      description: Get story summary for latest published version of story.
       tags:
         - story
       operationId: getStory
@@ -96,7 +96,7 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
     put:
-      description: Updates summary information about a story.
+      description: Updates summary information about a draft story.
       tags:
         - story
       operationId: updateStory
@@ -143,10 +143,10 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  '/stories/{key}/entire':
+  '/stories/{key}/full':
     x-swagger-router-controller: stories
     get:
-      description: Get entire story.
+      description: Get entire published story, including all chapters.  This is useful for backups and to avoid network "chattiness."
       tags:
         - story
       operationId: getEntireStory
@@ -282,7 +282,7 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
     put:
-      description: Updates signs on signpost, adding new signs as needed.  (Use delete to remove signs.)
+      description: Updates signs on signpost, adding, changing and removing as specified.
       tags:
         - story
       operationId: updateSignpost
