@@ -165,6 +165,34 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  '/stories/{key}/version/{version}':
+    x-swagger-router-controller: stories
+    get:
+      description: Get entire published story, including all chapters.  This is useful for backups and to avoid network "chattiness."
+      tags:
+        - story
+      operationId: getStoryByVersion
+      parameters:
+        - name: key
+          in: path
+          description: story key
+          required: true
+          type: string
+        - name: version
+          in: path
+          description: version of story to get
+          required: true
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Story"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   '/stories/{key}/chapters':
     x-swagger-router-controller: chapters
     post:

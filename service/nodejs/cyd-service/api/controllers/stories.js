@@ -14,7 +14,7 @@ exports.getAllPublished = function(req, res) {
       res.json(error);
     }
   };
-  storiesDataAccess.retrieveLatestPublishedStories(callback);
+  storiesDataAccess.selectLatestPublishedStories(callback);
 };
 
 exports.getStory = function(req, res) {
@@ -32,7 +32,7 @@ exports.getStory = function(req, res) {
       res.json(error);
     }
   };
-  storiesDataAccess.retrieveLatestPublishedStory(key, callback);
+  storiesDataAccess.selectLatestPublishedStory(key, callback);
 };
 
 exports.getDraftStory = function(req, res) {
@@ -50,5 +50,25 @@ exports.getDraftStory = function(req, res) {
       res.json(error);
     }
   };
-  storiesDataAccess.retrieveDraftStory(key, callback);
-}
+  storiesDataAccess.selectDraftStory(key, callback);
+};
+
+exports.getStoryByVersion = function(req, res) {
+  var key = req.swagger.params.key.value;
+  var version = req.swagger.params.version.value;
+  console.log('getStoryByVersion called with key {', key, '} and version {', version,
+    'at', new Date());
+  var callback = function(data) {
+    if (data) {
+      res.json(data);
+    } else {
+      var error = {
+        code: '404',
+        message: 'Story was not found for key: ' + key
+      };
+      res.status(404);
+      res.json(error);
+    }
+  };
+  storiesDataAccess.selectStoryByVersion(key, version, callback);
+};

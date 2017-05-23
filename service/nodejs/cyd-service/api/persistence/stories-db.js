@@ -38,7 +38,7 @@ function filterHighestVersionPerUniqueKey(data) {
   return Object.keys(highestVersionPerKey).map(function(key) { return highestVersionPerKey[key]});
 }
 
-exports.retrieveLatestPublishedStories = function(callback) {
+exports.selectLatestPublishedStories = function(callback) {
   initAWSConnection();
   var docClient = new AWS.DynamoDB.DocumentClient();
   var params = {
@@ -64,7 +64,7 @@ exports.retrieveLatestPublishedStories = function(callback) {
   );
 };
 
-exports.retrieveLatestPublishedStory = function(key, callback) {
+exports.selectLatestPublishedStory = function(key, callback) {
   initAWSConnection();
   var docClient = new AWS.DynamoDB.DocumentClient();
   var params = {
@@ -94,14 +94,14 @@ exports.retrieveLatestPublishedStory = function(key, callback) {
   );
 };
 
-exports.retrieveDraftStory = function(key, callback) {
+exports.selectStoryByVersion = function(key, version, callback) {
   initAWSConnection();
   var docClient = new AWS.DynamoDB.DocumentClient();
   var params = {
     TableName: storyTableName,
     Key: {
       "key": key,
-      "version": -1
+      "version": version
     }
   };
   var promise = docClient.get(params).promise();
@@ -115,4 +115,8 @@ exports.retrieveDraftStory = function(key, callback) {
       callback(null);
     }
   )
+};
+
+exports.selectDraftStory = function(key, callback) {
+  this.selectStoryByVersion(key, -1, callback);
 };
