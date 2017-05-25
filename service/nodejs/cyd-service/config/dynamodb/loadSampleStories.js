@@ -38,7 +38,8 @@ var allStories = JSON.parse(fs.readFileSync('sampleStories.json', 'utf8'));
 allStories.forEach(function(story) {
   var storyKey = story.key;
   var version = story.version;
-  var storyKeyVersion = storyKey + '-' + version;
+  var useVersion = (version < 0) ? 'd' : version;
+  var storyKeyVersion = storyKey + '-' + useVersion;
   var summary = story.summary;
   var chapters = story.chapters;
 

@@ -3,9 +3,11 @@
     "key": "abcd0001wxyz",
     "version": 1,
     "summary": {
-      "authorId": "e49a7252-acbc-4ca8-976c-17624fea822c",
       "title": "Frost Bite",
-      "penName": "Buster V.",
+      "author": {
+        "id": "e49a7252-acbc-4ca8-976c-17624fea822c",
+        "penName": "Buster V."
+      },
       "tagLine": "Don't touch the water.",
       "about": "Buster V. brings us another ironic adventure full of intrigue.  Test your wits?",
       "firstChapter": 1000,
@@ -43,9 +45,11 @@
     "key": "abcd0001wxyz",
     "version": 2,
     "summary": {
-      "authorId": "e49a7252-acbc-4ca8-976c-17624fea822c",
       "title": "Frost Bite",
-      "penName": "Buster V. Crumb",
+      "author": {
+        "id": "e49a7252-acbc-4ca8-976c-17624fea822c",
+        "penName": "Buster V. Crumb"
+      },
       "tagLine": "Is it me, or is it getting cold in here?",
       "about": "Buster V. brings us another ironic adventure full of intrigue.  Test your wits and stay warm?",
       "firstChapter": 1000,
@@ -103,9 +107,11 @@
     "key": "abcd0001wxyz",
     "version": -1,
     "summary": {
-      "authorId": "e49a7252-acbc-4ca8-976c-17624fea822c",
       "title": "DRAFT Frost Bite",
-      "penName": "DRAFT Buster V.",
+      "author": {
+        "id": "e49a7252-acbc-4ca8-976c-17624fea822c",
+        "penName": "DRAFT Buster V."
+      },
       "tagLine": "draft, draft, draft, draft, draft, draft, draft...",
       "about": "DRAFT Buster V. brings us another ironic adventure full of intrigue.  Test your wits and avoid the chill of a lifetime?",
       "firstChapter": 1000
@@ -166,9 +172,11 @@
     "key": "efgh1234qwer",
     "version": 1,
     "summary": {
-      "authorId": "64f0be1c-c2a9-40d9-96fb-820aac3a4099",
       "title": "Punchy Whale",
-      "penName": "Buster V.",
+      "author": {
+        "id": "64f0be1c-c2a9-40d9-96fb-820aac3a4099",
+        "penName": "Buster V."
+      },
       "tagLine": "Don't touch the water.",
       "about": "This is the challenge you have been searching for.  Will you be able to find the prize?",
       "firstChapter": 1000,
@@ -201,12 +209,36 @@
     "key": "zyxv0042poiu",
     "version": -1,
     "summary": {
-      "authorId": "e49a7252-acbc-4ca8-976c-17624fea822c",
       "title": "Bring Home the Bacon",
-      "penName": "Buster V.",
+      "author": {
+        "id": "e49a7252-acbc-4ca8-976c-17624fea822c",
+        "penName": "Buster V."
+      },
       "tagLine": "Who's hungry?",
       "about": "Your family is starving, literally.  You need to do something fast, but you also need to survive.",
       "firstChapter": 1000
+    }
+  },
+  {
+    "key": "spottydata",
+    "version": 1,
+    "publishedAt": "2017-05-20T012:37:42Z",
+    "summary": {
+      "title": "Bring Home the Bacon",
+      "author": {
+        "penName": "Buster V."
+      }
+    }
+  },
+  {
+    "key": "spottydata2",
+    "version": 6,
+    "publishedAt": "2017-05-21T012:37:42Z",
+    "summary": {
+      "author": {
+        "id": "e49a7252-wxyz-4ca8-976c-17624fea822c"
+      },
+      "firstChapter": 42
     }
   }
 ]

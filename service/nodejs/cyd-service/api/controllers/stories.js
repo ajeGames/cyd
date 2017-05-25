@@ -1,7 +1,8 @@
 var storiesDataAccess = require('../persistence/stories-db');
+var logger = require('../helpers/logger');
 
-exports.getAllPublished = function(req, res) {
-  console.log('getAllPublished called at', new Date());
+exports.getLatestPublishedStories = function(req, res) {
+  console.log(logger.timestamp(), 'getAllPublished');
   var callback = function(data) {
     if (data) {
       res.json(data);
@@ -17,27 +18,9 @@ exports.getAllPublished = function(req, res) {
   storiesDataAccess.selectLatestPublishedStories(callback);
 };
 
-exports.getStory = function(req, res) {
-  var key = req.swagger.params.key.value;
-  console.log('getStory called with key {', key,'} at', new Date());
-  var callback = function(data) {
-    if (data) {
-      res.json(data);
-    } else {
-      var error = {
-        code: '404',
-        message: 'Story was not found for key: ' + key
-      };
-      res.status(404);
-      res.json(error);
-    }
-  };
-  storiesDataAccess.selectLatestPublishedStory(key, callback);
-};
-
 exports.getDraftStory = function(req, res) {
   var key = req.swagger.params.key.value;
-  console.log('getDraftStory called with key {', key,'} at', new Date());
+  console.log(logger.timestamp(), 'getDraftStory { key:', key,'}');
   var callback = function(data) {
     if (data) {
       res.json(data);
@@ -53,11 +36,28 @@ exports.getDraftStory = function(req, res) {
   storiesDataAccess.selectDraftStory(key, callback);
 };
 
+exports.getLatestPublishedStory = function(req, res) {
+  var key = req.swagger.params.key.value;
+  console.log(logger.timestamp(), 'getStory { key:', key,'}');
+  var callback = function(data) {
+    if (data) {
+      res.json(data);
+    } else {
+      var error = {
+        code: '404',
+        message: 'Story was not found for key: ' + key
+      };
+      res.status(404);
+      res.json(error);
+    }
+  };
+  storiesDataAccess.selectLatestPublishedStory(key, callback);
+};
+
 exports.getStoryByVersion = function(req, res) {
   var key = req.swagger.params.key.value;
   var version = req.swagger.params.version.value;
-  console.log('getStoryByVersion called with key {', key, '} and version {', version,
-    'at', new Date());
+  console.log(logger.timestamp(), 'getStoryByVersion { key:', key, ', version: {', version, '}');
   var callback = function(data) {
     if (data) {
       res.json(data);
@@ -71,4 +71,8 @@ exports.getStoryByVersion = function(req, res) {
     }
   };
   storiesDataAccess.selectStoryByVersion(key, version, callback);
+};
+
+exports.getEntireStory = function(req, res) {
+  // TODO chain promises: first get story by version, then get chapters and assemble
 };

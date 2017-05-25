@@ -42,7 +42,7 @@ paths:
       description: Get all story summaries of published stories.
       tags:
         - story
-      operationId: getAllPublished
+      operationId: getLatestPublishedStories
       responses:
         "200":
           description: Success
@@ -53,7 +53,7 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
     post:
-      description: Start editing a new story.
+      description: Create a new story in draft mode, ready for editing.
       tags:
         - story
       operationId: createStory
@@ -76,10 +76,10 @@ paths:
   /stories/{key}:
     x-swagger-router-controller: stories
     get:
-      description: Get story summary for latest published version of story.
+      description: Get draft story summary if one exists.
       tags:
         - story
-      operationId: getStory
+      operationId: getDraftStory
       parameters:
         - name: key
           in: path
@@ -121,13 +121,13 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  '/stories/{key}/draft':
+  '/stories/{key}/latest':
     x-swagger-router-controller: stories
     get:
-      description: Get draft story summary if one exists.
+      description: Get story summary for latest published version of story.
       tags:
         - story
-      operationId: getDraftStory
+      operationId: getLatestPublishedStory
       parameters:
         - name: key
           in: path
@@ -143,32 +143,10 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  '/stories/{key}/full':
+  '/stories/{key}/{version}':
     x-swagger-router-controller: stories
     get:
-      description: Get entire published story, including all chapters.  This is useful for backups and to avoid network "chattiness."
-      tags:
-        - story
-      operationId: getEntireStory
-      parameters:
-        - name: key
-          in: path
-          description: story key
-          required: true
-          type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/Story"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-  '/stories/{key}/version/{version}':
-    x-swagger-router-controller: stories
-    get:
-      description: Get entire published story, including all chapters.  This is useful for backups and to avoid network "chattiness."
+      description: Get story summary.
       tags:
         - story
       operationId: getStoryByVersion
@@ -193,7 +171,35 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  '/stories/{key}/chapters':
+  '/stories/{key}/{version}/full':
+    x-swagger-router-controller: stories
+    get:
+      description: Get entire published story, including all chapters.  This is useful for backups and to avoid network "chattiness."
+      tags:
+        - story
+      operationId: getEntireStory
+      parameters:
+        - name: key
+          in: path
+          description: story key
+          required: true
+          type: string
+        - name: version
+          in: path
+          description: version of story to get
+          required: true
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Story"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  '/stories/{key}/{version}/chapters':
     x-swagger-router-controller: chapters
     post:
       description: Creates a chapter with given information.
@@ -206,6 +212,12 @@ paths:
           description: story key
           required: true
           type: string
+        - name: version
+          in: path
+          description: version of story to get
+          required: true
+          type: integer
+          format: int32
         - name: chapter
           in: body
           description: Chapter information
@@ -221,7 +233,7 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  '/stories/{key}/chapters/{id}':
+  '/stories/{key}/{version}/chapters/{id}':
     x-swagger-router-controller: chapters
     get:
       description: Gets a chapter.
@@ -234,6 +246,12 @@ paths:
           description: story key
           required: true
           type: string
+        - name: version
+          in: path
+          description: version of story to get
+          required: true
+          type: integer
+          format: int32
         - name: id
           in: path
           description: chapter ID
@@ -260,6 +278,12 @@ paths:
           description: story key
           required: true
           type: string
+        - name: version
+          in: path
+          description: version of story to get
+          required: true
+          type: integer
+          format: int32
         - name: id
           in: path
           description: chapter ID
@@ -281,7 +305,7 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  '/stories/{key}/chapters/{id}/signpost':
+  '/stories/{key}/{version}/chapters/{id}/signpost':
     x-swagger-router-controller: chapters
     get:
       description: Retrieves just the signpost portion of the chapter
@@ -294,6 +318,12 @@ paths:
           description: story key
           required: true
           type: string
+        - name: version
+          in: path
+          description: version of story to get
+          required: true
+          type: integer
+          format: int32
         - name: id
           in: path
           description: chapter ID
@@ -320,6 +350,12 @@ paths:
           description: story key
           required: true
           type: string
+        - name: version
+          in: path
+          description: version of story to get
+          required: true
+          type: integer
+          format: int32
         - name: id
           in: path
           description: chapter ID
@@ -358,7 +394,7 @@ definitions:
   Chapter:
     type: object
     properties:
-      chapterId:
+      id:
         type: integer
         format: int32
       title:
@@ -408,7 +444,7 @@ definitions:
   Signpost:
     type: object
     properties:
-      chapterId:
+      sourceChapterId:
         type: integer
         format: int32
       destinations:
@@ -451,8 +487,9 @@ definitions:
     properties:
       key:
         type: string
-      authorId:
-        type: string
+      version:
+        type: integer
+        format: int32
       title:
         type: string
       penName:
@@ -467,9 +504,6 @@ definitions:
       publishedAt:
         type: string
         format: date-time
-      version:
-        type: integer
-        format: int32
   StorySummaryUpdate:
     type: object
     properties:

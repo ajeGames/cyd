@@ -1,6 +1,6 @@
 var AWS = require("aws-sdk");
 
-var storyTableName = "Stories";
+var tableName = "Stories";
 
 function initAWSConnection() {
   AWS.config.update({
@@ -9,7 +9,14 @@ function initAWSConnection() {
   });
 }
 
-function mapStoryDbToApi(data) {
+/**
+ * Maps story from DynamoDB structure to internal Object structure.  The data might be returned
+ * from DynamoDB as-is or nested under Item or an Items array.
+ *
+ * @param data
+ * @returns {*}
+ */
+function mapStoryFromDb(data) {
   var storyOut;
   if (data) {
     var story;
@@ -21,7 +28,18 @@ function mapStoryDbToApi(data) {
       story = data.Items[0];
     }
     if (story && story.key) {
-      storyOut = Object.assign({}, story.summary, {key: story.key, version: story.version});
+      storyOut = Object.assign({},
+        {
+          key: story.key,
+          version: story.version,
+          title: story.summary.title,
+          penName: story.summary.author.penName,
+          tagLine: story.summary.tagLine,
+          about: story.summary.about,
+          firstChapter: story.summary.firstChapter,
+          publishedAt: story.summary.publishedAt
+        }
+      );
     }
   }
   return storyOut;
@@ -42,7 +60,7 @@ exports.selectLatestPublishedStories = function(callback) {
   initAWSConnection();
   var docClient = new AWS.DynamoDB.DocumentClient();
   var params = {
-    TableName: storyTableName,
+    TableName: tableName,
     FilterExpression: "version > :publishedVersionsAreHigher",
     ExpressionAttributeValues: {
       ":publishedVersionsAreHigher": 0
@@ -54,7 +72,7 @@ exports.selectLatestPublishedStories = function(callback) {
     function(data) {
       console.log(data);
       var resultsFromDB = filterHighestVersionPerUniqueKey(data);
-      var mappedResults = resultsFromDB.map(function(result) { return mapStoryDbToApi(result) });
+      var mappedResults = resultsFromDB.map(function(result) { return mapStoryFromDb(result) });
       callback(mappedResults);
     },
     function(error) {
@@ -68,7 +86,7 @@ exports.selectLatestPublishedStory = function(key, callback) {
   initAWSConnection();
   var docClient = new AWS.DynamoDB.DocumentClient();
   var params = {
-    TableName: storyTableName,
+    TableName: tableName,
     Limit: 1,
     ScanIndexForward: false,
     KeyConditionExpression: "#key = :v1 and version > :v2",
@@ -84,7 +102,7 @@ exports.selectLatestPublishedStory = function(key, callback) {
   var promise = docClient.query(params).promise();
   promise.then(
     function(data) {
-      callback(mapStoryDbToApi(data));
+      callback(mapStoryFromDb(data));
     },
     function(error) {
       console.log('error:', error);
@@ -98,7 +116,7 @@ exports.selectStoryByVersion = function(key, version, callback) {
   initAWSConnection();
   var docClient = new AWS.DynamoDB.DocumentClient();
   var params = {
-    TableName: storyTableName,
+    TableName: tableName,
     Key: {
       "key": key,
       "version": version
@@ -107,7 +125,7 @@ exports.selectStoryByVersion = function(key, version, callback) {
   var promise = docClient.get(params).promise();
   promise.then(
     function(data) {
-      callback(mapStoryDbToApi(data));
+      callback(mapStoryFromDb(data));
     },
     function(error) {
       console.log('error:', error);

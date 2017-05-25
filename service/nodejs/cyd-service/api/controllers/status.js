@@ -6,6 +6,6 @@ exports.getStatus = function(req, res) {
     "salutation": "Hunky dory",
     "version": "1.0"
   };
-  console.log('getStatus called at', new Date());
+  console.log(new Date(), 'getStatus');
   res.json(status);
 };
