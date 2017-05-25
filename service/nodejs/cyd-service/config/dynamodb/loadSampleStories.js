@@ -10,17 +10,44 @@ var docClient = new AWS.DynamoDB.DocumentClient();
 
 console.log("Importing stories into DynamoDB. Please wait.");
 
+function loadChapter(storyKeyVersion, chapter) {
+  var params = {
+    TableName: "Chapters",
+    Item: {
+      "storyKeyVersion":  storyKeyVersion,
+      "id": chapter.id,
+      "title": chapter.title,
+      "prose": chapter.prose,
+      "signpost": chapter.signpost
+    }
+  };
 
-console.log("==> Loading sample data...");
+  docClient.put(params, function(err, data) {
+    if (err) {
+      console.error("Unable to add chapter:", chapter.id);
+      console.error("Error JSON:", JSON.stringify(err, null, 2));
+    } else {
+      console.log("Put chapter", chapter.id, "succeeded for story", storyKeyVersion);
+      console.log(data);
+    }
+  });
+}
 
 var allStories = JSON.parse(fs.readFileSync('sampleStories.json', 'utf8'));
+
 allStories.forEach(function(story) {
+  var storyKey = story.key;
+  var version = story.version;
+  var storyKeyVersion = storyKey + '-' + version;
+  var summary = story.summary;
+  var chapters = story.chapters;
+
   var params = {
     TableName: "Stories",
     Item: {
-      "key":  story.key,
-      "version": story.version,
-      "summary":  story.summary
+      "key":  storyKey,
+      "version": version,
+      "summary": summary
     }
   };
 
@@ -29,8 +56,14 @@ allStories.forEach(function(story) {
       console.error("Unable to add story:", story.key);
       console.error("Error JSON:", JSON.stringify(err, null, 2));
     } else {
-      console.log("Put succeeded:", story.key);
+      console.log("Put story succeeded for", story.key);
       console.log(data);
     }
   });
+
+  if (chapters && chapters.length > 0) {
+    chapters.forEach(function (chapter) {
+      loadChapter(storyKeyVersion, chapter);
+    });
+  }
 });

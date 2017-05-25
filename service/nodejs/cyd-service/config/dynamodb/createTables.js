@@ -29,12 +29,12 @@ var tableParamSets = [
   {
     TableName: "Chapters",
     KeySchema: [
-      {AttributeName: "storyKey", KeyType: "HASH"},
-      {AttributeName: "chapterId", KeyType: "RANGE"}
+      {AttributeName: "storyKeyVersion", KeyType: "HASH"},
+      {AttributeName: "id", KeyType: "RANGE"}
     ],
     AttributeDefinitions: [
-      {AttributeName: "storyKey", AttributeType: "S"},
-      {AttributeName: "chapterId", AttributeType: "S"}
+      {AttributeName: "storyKeyVersion", AttributeType: "S"},
+      {AttributeName: "id", AttributeType: "N"}
     ],
     ProvisionedThroughput: {
       ReadCapacityUnits: 1,

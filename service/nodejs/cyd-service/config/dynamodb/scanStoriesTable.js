@@ -25,3 +25,19 @@ docClient.scan(params, function(err, data) {
     });
   }
 });
+
+params = {
+  TableName: "Chapters",
+  ProjectionExpression: "storyKeyVersion, id, title"
+};
+
+docClient.scan(params, function(err, data) {
+  if (err) {
+    console.error("Unable to scan Chapters table. Error JSON:", JSON.stringify(err, null, 2));
+  } else {
+    console.log("Scan succeeded.", data.Items.length, "items found.");
+    data.Items.forEach(function(item) {
+      console.log(item);
+    });
+  }
+});
