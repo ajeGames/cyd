@@ -33,13 +33,13 @@ export const RECEIVE_STORY_SUMMARY = 'RECEIVE_STORY_SUMMARY';
 export const requestStorySummary = createAction(REQUEST_STORY_SUMMARY);
 export const receiveStorySummary = createAction(RECEIVE_STORY_SUMMARY);
 
-export const fetchStorySummary = (storyKey) => {
+export const fetchStorySummary = (storyKey, version) => {
   return dispatch => {
     dispatch(requestStorySummary());
-    return getStorySummary(storyKey)
+    return getStorySummary(storyKey, version)
       .then(response => response.json())
       .then(summary => {
-        dispatch(receiveStorySummary(summary));
+        dispatch(receiveStorySummary(summary, version));
       })
       .catch(problem => {
         dispatch(receiveStorySummary(new Error(problem)))
@@ -55,13 +55,13 @@ export const requestChapter = createAction(REQUEST_CHAPTER,
 export const receiveChapter = createAction(RECEIVE_CHAPTER,
   (storyKey, chapter) => ({ storyKey, chapter }));
 
-export const fetchChapter = (storyKey, chapterId) => {
+export const fetchChapter = (storyKey, version, chapterId) => {
   return dispatch => {
-    dispatch(requestChapter(storyKey, chapterId));
-    return getChapter(storyKey, chapterId)
+    dispatch(requestChapter(storyKey, version, chapterId));
+    return getChapter(storyKey, version, chapterId)
       .then(response => response.json())
       .then(chapter => {
-        dispatch(receiveChapter(storyKey, chapter));
+        dispatch(receiveChapter(storyKey, version, chapter));
       })
       .catch(problem => {
         dispatch(receiveChapter(new Error(problem)))

@@ -92,3 +92,7 @@ exports.selectChapter = function(storyKey, version, chapterId, callback) {
     }
   )
 };
+
+exports.selectDraftChapter = function(storyKey, chapterId, callback) {
+  this.selectChapter(storyKey, -1, chapterId, callback);
+};

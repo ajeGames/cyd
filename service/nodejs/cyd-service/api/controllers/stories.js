@@ -18,6 +18,16 @@ exports.getLatestPublishedStories = function(req, res) {
   storiesDataAccess.selectLatestPublishedStories(callback);
 };
 
+// TODO implement
+exports.createStory = function(req, res) {
+  var error = {
+    code: '500',
+    message: 'Not implemented'
+  };
+  res.status(500);
+  res.json(error);
+};
+
 exports.getDraftStory = function(req, res) {
   var key = req.swagger.params.key.value;
   console.log(logger.timestamp(), 'getDraftStory { key:', key,'}');
@@ -34,6 +44,16 @@ exports.getDraftStory = function(req, res) {
     }
   };
   storiesDataAccess.selectDraftStory(key, callback);
+};
+
+// TODO implement
+exports.updateStory = function(req, res) {
+  var error = {
+    code: '500',
+    message: 'Not implemented'
+  };
+  res.status(500);
+  res.json(error);
 };
 
 exports.getLatestPublishedStory = function(req, res) {
@@ -73,6 +93,15 @@ exports.getStoryByVersion = function(req, res) {
   storiesDataAccess.selectStoryByVersion(key, version, callback);
 };
 
+// TODO implement
 exports.getEntireStory = function(req, res) {
-  // TODO chain promises: first get story by version, then get chapters and assemble
+
+  // chain promises: first get story by version, then get chapters and assemble
+
+  var error = {
+    code: '500',
+    message: 'Not implemented'
+  };
+  res.status(500);
+  res.json(error);
 };
