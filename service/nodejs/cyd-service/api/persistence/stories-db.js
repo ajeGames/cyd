@@ -1,13 +1,8 @@
-var AWS = require("aws-sdk");
+const admin = require('./admin-db');
+const logger = require('../helpers/logger');
+const { randomString } = require('../helpers/keyUtil');
 
-var tableName = "Stories";
-
-function initAWSConnection() {
-  AWS.config.update({
-    region: "us-west-2",
-    endpoint: "http://localhost:8000"
-  });
-}
+const storyTableName = "Stories";
 
 /**
  * Maps story from DynamoDB structure to internal Object structure.  The data might be returned
@@ -17,9 +12,9 @@ function initAWSConnection() {
  * @returns {*}
  */
 function mapStoryFromDb(data) {
-  var storyOut;
+  let storyOut;
   if (data) {
-    var story;
+    let story;
     if (data.Item) {
       story = data.Item;
     } else if (data.key) {
@@ -33,7 +28,7 @@ function mapStoryFromDb(data) {
           key: story.key,
           version: story.version,
           title: story.summary.title,
-          penName: story.summary.author.penName,
+          penName: story.summary.penName,
           tagLine: story.summary.tagLine,
           about: story.summary.about,
           firstChapter: story.summary.firstChapter,
@@ -45,10 +40,57 @@ function mapStoryFromDb(data) {
   return storyOut;
 }
 
+exports.insertStory = (storySummary, callback) => {
+  logger.info('stories-db.insertStory');
+  const { docClient } = admin.initAWSConnection();
+  const uniqueKey = randomString(12);
+  const story = {
+    key: uniqueKey,
+    version: -1,
+    author: 'anonymous',
+    summary: storySummary
+  };
+  const params = {
+    TableName: storyTableName,
+    Item: story
+  };
+  const promise = docClient.put(params).promise();
+  promise.then(
+    (data) => {
+      logger.info('created story', data);
+      callback(story);
+    },
+    (error) => {
+      logger.error(error);
+      logger.error('params used:', params);
+    }
+  );
+};
+
+exports.updateStory = (story, callback) => {
+  logger.info('stories-db.updateStory');
+  const { docClient } = admin.initAWSConnection();
+  const params = {
+    TableName: storyTableName,
+    Item: story
+  };
+  const promise = docClient.put(params).promise();
+  promise.then(
+    (data) => {
+      logger.info('created story', data);
+      callback(story);
+    },
+    (error) => {
+      logger.error(error);
+      logger.error('params used:', params);
+    }
+  );
+};
+
 function filterHighestVersionPerUniqueKey(data) {
-  var highestVersionPerKey = {};
+  const highestVersionPerKey = {};
   data.Items.forEach(function(nextItem) {
-    var itemInMap = highestVersionPerKey[nextItem.key];
+    const itemInMap = highestVersionPerKey[nextItem.key];
     if (!itemInMap || itemInMap.version < nextItem.version) {
       highestVersionPerKey[nextItem.key] = nextItem;
     }
@@ -56,37 +98,35 @@ function filterHighestVersionPerUniqueKey(data) {
   return Object.keys(highestVersionPerKey).map(function(key) { return highestVersionPerKey[key]});
 }
 
-exports.selectLatestPublishedStories = function(callback) {
-  initAWSConnection();
-  var docClient = new AWS.DynamoDB.DocumentClient();
-  var params = {
-    TableName: tableName,
+exports.selectLatestPublishedStories = (callback) => {
+  logger.info('stories-db.selectLatestPublishedStories');
+  const { docClient } = admin.initAWSConnection();
+  const params = {
+    TableName: storyTableName,
     FilterExpression: "version > :publishedVersionsAreHigher",
     ExpressionAttributeValues: {
       ":publishedVersionsAreHigher": 0
     }
   };
-
-  var promise = docClient.scan(params).promise();
+  const promise = docClient.scan(params).promise();
   promise.then(
-    function(data) {
-      console.log(data);
-      var resultsFromDB = filterHighestVersionPerUniqueKey(data);
-      var mappedResults = resultsFromDB.map(function(result) { return mapStoryFromDb(result) });
+    (data) => {
+      const resultsFromDB = filterHighestVersionPerUniqueKey(data);
+      const mappedResults = resultsFromDB.map(function(result) { return mapStoryFromDb(result) });
       callback(mappedResults);
     },
-    function(error) {
-      console.log('error:', error);
-      console.log('params used:', params);
+    (error) => {
+      logger.error(error);
+      logger.error('params used:', params);
     }
   );
 };
 
-exports.selectLatestPublishedStory = function(key, callback) {
-  initAWSConnection();
-  var docClient = new AWS.DynamoDB.DocumentClient();
-  var params = {
-    TableName: tableName,
+exports.selectLatestPublishedStory = (key, callback) => {
+  logger.info('stories-db.selectLatestPublishedStory');
+  const { docClient } = admin.initAWSConnection();
+  const params = {
+    TableName: storyTableName,
     Limit: 1,
     ScanIndexForward: false,
     KeyConditionExpression: "#key = :v1 and version > :v2",
@@ -98,43 +138,43 @@ exports.selectLatestPublishedStory = function(key, callback) {
       ":v2": 0
     }
   };
-
-  var promise = docClient.query(params).promise();
+  const promise = docClient.query(params).promise();
   promise.then(
-    function(data) {
+    (data) => {
       callback(mapStoryFromDb(data));
     },
-    function(error) {
-      console.log('error:', error);
-      console.log('params used:', params);
+    (error) => {
+      logger.error(error);
+      logger.error('params used:', params);
       callback(null);
     }
   );
 };
 
-exports.selectStoryByVersion = function(key, version, callback) {
-  initAWSConnection();
-  var docClient = new AWS.DynamoDB.DocumentClient();
-  var params = {
-    TableName: tableName,
+exports.selectStoryByVersion = (key, version, callback) => {
+  logger.info('stories-db.selectStoryByVersion');
+  const { docClient } = admin.initAWSConnection();
+  const params = {
+    TableName: storyTableName,
     Key: {
       "key": key,
       "version": version
     }
   };
-  var promise = docClient.get(params).promise();
+  const promise = docClient.get(params).promise();
   promise.then(
-    function(data) {
+    (data) => {
       callback(mapStoryFromDb(data));
     },
-    function(error) {
-      console.log('error:', error);
-      console.log('params used:', params);
+    (error) => {
+      logger.error(error);
+      logger.error('params used:', params);
       callback(null);
     }
   )
 };
 
-exports.selectDraftStory = function(key, callback) {
+exports.selectDraftStory = (key, callback) => {
+  logger.info('stories-db.selectDraftStory');
   this.selectStoryByVersion(key, -1, callback);
 };

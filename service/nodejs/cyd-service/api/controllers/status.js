@@ -7,5 +7,5 @@ exports.getStatus = function(req, res) {
     "version": "1.0"
   };
   console.log(new Date(), 'getStatus');
-  res.json(status);
+  res.json(status).send();
 };

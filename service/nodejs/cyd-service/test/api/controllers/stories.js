@@ -1,6 +1,7 @@
 const should = require('should');
 const request = require('supertest');
 const server = require('../../../app');
+const logger = require('../../../api/helpers/logger');
 
 describe('controllers', () => {
   describe('stories', () => {
@@ -21,7 +22,6 @@ describe('controllers', () => {
           });
       });
     });
-
     describe('POST /v1/stories', () => {
       it('should create a new draft story', (done) => {
         request(server)
@@ -38,7 +38,7 @@ describe('controllers', () => {
           .end(function(err, res) {
             should.not.exist(err);
             res.body.should.exist;
-            console.log(res.body);
+            logger.info(res.body);
             done();
           });
       });

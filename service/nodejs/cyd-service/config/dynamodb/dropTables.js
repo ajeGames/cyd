@@ -1,26 +1,3 @@
-var AWS = require("aws-sdk");
+const admin = require('../../api/persistence/admin-db');
 
-AWS.config.update({
-  region: "us-west-2",
-  endpoint: "http://localhost:8000"
-});
-
-var dynamodb = new AWS.DynamoDB();
-
-console.log('==> Dropping tables...');
-
-var tablesToDrop = ["Stories", "Chapters"];
-
-tablesToDrop.forEach(function(table) {
-  var params = {
-    TableName: table
-  };
-
-  dynamodb.deleteTable(params, function (err, data) {
-    if (err) {
-      console.error("Unable to delete table. Error JSON:", JSON.stringify(err, null, 2));
-    } else {
-      console.log("Deleted table. Table description JSON:", JSON.stringify(data, null, 2));
-    }
-  })
-});
+admin.dropTables(["Stories", "Chapters"]);

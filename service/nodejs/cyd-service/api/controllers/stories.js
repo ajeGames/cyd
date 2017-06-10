@@ -1,46 +1,58 @@
-var storiesDataAccess = require('../persistence/stories-db');
-var logger = require('../helpers/logger');
+const storiesDataAccess = require('../persistence/stories-db');
+const logger = require('../helpers/logger');
 
 exports.getLatestPublishedStories = function(req, res) {
-  console.log(logger.timestamp(), 'getAllPublished');
-  var callback = function(data) {
+  logger.info('stories.getLatestPublishedStories');
+  const callback = (data) => {
     if (data) {
-      res.json(data);
+      res.json(data).send();
     } else {
-      var error = {
+      const error = {
         code: '500',
         message: 'There was a problem that is beyond your control.  Contact customer support.'
       };
-      res.status(500);
-      res.json(error);
+      res.status(500).json(error).send();
     }
   };
   storiesDataAccess.selectLatestPublishedStories(callback);
 };
 
-// TODO implement
 exports.createStory = function(req, res) {
-  var error = {
-    code: '500',
-    message: 'Not implemented'
+  logger.info('stories.createStory');
+  const payload = req.body;
+  const storyData = Object.assign({}, {
+    title: payload.title,
+    penName: payload.penName,
+    tagLine: payload.tagLine,
+    about: payload.about,
+    firstChapter: 1
+  });
+  const callback = (data) => {
+    if (data) {
+      res.json(data).send();
+    } else {
+      const error = {
+        code: '500',
+        message: 'There was a problem that is beyond your control.  Contact customer support.'
+      };
+      res.status(500).json(error).send();
+    }
   };
-  res.status(500);
-  res.json(error);
+  storiesDataAccess.insertStory(storyData, callback);
 };
 
 exports.getDraftStory = function(req, res) {
-  var key = req.swagger.params.key.value;
+  const key = req.swagger.params.key.value;
   console.log(logger.timestamp(), 'getDraftStory { key:', key,'}');
-  var callback = function(data) {
+  const callback = function(data) {
     if (data) {
-      res.json(data);
+      res.json(data).send();
     } else {
-      var error = {
+      const error = {
         code: '404',
         message: 'Story was not found for key: ' + key
       };
-      res.status(404);
-      res.json(error);
+      res.status(404).json(error).send();
     }
   };
   storiesDataAccess.selectDraftStory(key, callback);
@@ -48,46 +60,50 @@ exports.getDraftStory = function(req, res) {
 
 // TODO implement
 exports.updateStory = function(req, res) {
-  var error = {
+
+  // get draft story
+
+  // merge updates with story
+
+  // return updated story
+
+  const error = {
     code: '500',
     message: 'Not implemented'
   };
-  res.status(500);
-  res.json(error);
+  res.status(500).json(error).send();
 };
 
 exports.getLatestPublishedStory = function(req, res) {
-  var key = req.swagger.params.key.value;
+  const key = req.swagger.params.key.value;
   console.log(logger.timestamp(), 'getStory { key:', key,'}');
-  var callback = function(data) {
+  const callback = function(data) {
     if (data) {
-      res.json(data);
+      res.json(data).send();
     } else {
-      var error = {
+      const error = {
         code: '404',
         message: 'Story was not found for key: ' + key
       };
-      res.status(404);
-      res.json(error);
+      res.status(404).json(error).send();
     }
   };
   storiesDataAccess.selectLatestPublishedStory(key, callback);
 };
 
 exports.getStoryByVersion = function(req, res) {
-  var key = req.swagger.params.key.value;
-  var version = req.swagger.params.version.value;
+  const key = req.swagger.params.key.value;
+  const version = req.swagger.params.version.value;
   console.log(logger.timestamp(), 'getStoryByVersion { key:', key, ', version: {', version, '}');
-  var callback = function(data) {
+  const callback = function(data) {
     if (data) {
-      res.json(data);
+      res.json(data).send();
     } else {
-      var error = {
+      const error = {
         code: '404',
         message: 'Story was not found for key: ' + key
       };
-      res.status(404);
-      res.json(error);
+      res.status(404).json(error).send();
     }
   };
   storiesDataAccess.selectStoryByVersion(key, version, callback);
@@ -98,10 +114,9 @@ exports.getEntireStory = function(req, res) {
 
   // chain promises: first get story by version, then get chapters and assemble
 
-  var error = {
+  const error = {
     code: '500',
     message: 'Not implemented'
   };
-  res.status(500);
-  res.json(error);
+  res.status(500).json(error).send();
 };
