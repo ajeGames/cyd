@@ -2,9 +2,10 @@ const admin = require('./admin-db');
 const logger = require('../helpers/logger');
 const { randomString } = require('../helpers/keyUtil');
 
+const { docClient } = admin.initAWSConnection();
 const storyTableName = "Stories";
 
-function toStorageForm(story) {
+const toStorageForm = story => {
   const { key, version, author, title, penName, tagLine, about, firstChapter, publishedAt } = story;
   return {
     key,
@@ -14,41 +15,15 @@ function toStorageForm(story) {
       title, penName, tagLine, about, firstChapter, publishedAt
     }
   };
-}
+};
 
-function toFlattenedForm(item) {
+const toFlattenedForm = item => {
   const { key, version, author, summary: { title, penName, tagLine, about, firstChapter, publishedAt } } = item;
   return { key, version, author, title, penName, tagLine, about, firstChapter, publishedAt };
-}
+};
 
-/**
- * Maps story from DynamoDB structure to internal Object structure.  The data might be returned
- * from DynamoDB as-is or nested under Item or an Items array.
- *
- * @param data
- * @returns {*}
- */
-function mapStoryFromDb(data) {
-  let storyOut;
-  if (data) {
-    let story;
-    if (data.key) {
-      story = data;
-    } else if (data.Item) {
-      story = data.Item;
-    } else if (data.Items) {
-      story = data.Items[0];
-    }
-    if (story && story.key) {
-      storyOut = toFlattenedForm(story);
-    }
-  }
-  return storyOut;
-}
-
-exports.insertStory = (storySummary, callback) => {
+exports.insertStory = (storySummary, done) => {
   logger.info('stories-db.insertStory');
-  const { docClient } = admin.initAWSConnection();
   const uniqueKey = randomString(12);
   const story = {
     key: uniqueKey,
@@ -63,19 +38,19 @@ exports.insertStory = (storySummary, callback) => {
   const promise = docClient.put(params).promise();
   promise.then(
     (data) => {
-      logger.info('created story', data);
-      callback(story);
+      logger.info('stories-db', 'created story');
+      done(story);
     },
     (error) => {
-      logger.error(error);
-      logger.error('params used:', params);
+      logger.error('stories-db', error);
+      logger.error('stories-db', 'params used:', params);
+      done();
     }
   );
 };
 
-exports.updateStory = (story, callback) => {
+exports.updateStory = (story, done) => {
   logger.info('stories-db.updateStory');
-  const { docClient } = admin.initAWSConnection();
   const params = {
     TableName: storyTableName,
     Item: story
@@ -83,30 +58,30 @@ exports.updateStory = (story, callback) => {
   const promise = docClient.put(params).promise();
   promise.then(
     (data) => {
-      logger.info('created story', data);
-      callback(story);
+      logger.info('stories-db', 'created story', data);
+      done(story);
     },
     (error) => {
-      logger.error(error);
-      logger.error('params used:', params);
+      logger.error('stories-db', error);
+      logger.error('stories-db', 'params used:', params);
+      done();
     }
   );
 };
 
-function filterHighestVersionPerUniqueKey(data) {
+const filterHighestVersionPerUniqueKey = data => {
   const highestVersionPerKey = {};
-  data.Items.forEach(function(nextItem) {
+  data.Items.forEach(nextItem => {
     const itemInMap = highestVersionPerKey[nextItem.key];
     if (!itemInMap || itemInMap.version < nextItem.version) {
       highestVersionPerKey[nextItem.key] = nextItem;
     }
   });
-  return Object.keys(highestVersionPerKey).map(function(key) { return highestVersionPerKey[key]});
-}
+  return Object.keys(highestVersionPerKey).map(key => highestVersionPerKey[key]);
+};
 
-exports.selectLatestPublishedStories = (callback) => {
+exports.selectLatestPublishedStories = done => {
   logger.info('stories-db.selectLatestPublishedStories');
-  const { docClient } = admin.initAWSConnection();
   const params = {
     TableName: storyTableName,
     FilterExpression: "version > :publishedVersionsAreHigher",
@@ -118,19 +93,19 @@ exports.selectLatestPublishedStories = (callback) => {
   promise.then(
     (data) => {
       const resultsFromDB = filterHighestVersionPerUniqueKey(data);
-      const mappedResults = resultsFromDB.map(function(result) { return toFlattenedForm(result) });
-      callback(mappedResults);
+      const mappedResults = resultsFromDB.map(result => toFlattenedForm(result));
+      done(mappedResults);
     },
     (error) => {
-      logger.error(error);
-      logger.error('params used:', params);
+      logger.error('stories-db', error);
+      logger.error('stories-db', 'params used:', params);
+      done();
     }
   );
 };
 
-exports.selectLatestPublishedStory = (key, callback) => {
+exports.selectLatestPublishedStory = (key, done) => {
   logger.info('stories-db.selectLatestPublishedStory');
-  const { docClient } = admin.initAWSConnection();
   const params = {
     TableName: storyTableName,
     Limit: 1,
@@ -147,19 +122,18 @@ exports.selectLatestPublishedStory = (key, callback) => {
   const promise = docClient.query(params).promise();
   promise.then(
     (data) => {
-      callback(mapStoryFromDb(data));
+      done(toFlattenedForm(data));
     },
     (error) => {
-      logger.error(error);
+      logger.error('stories-db', error);
       logger.error('params used:', params);
-      callback(null);
+      done();
     }
   );
 };
 
-exports.selectStoryByVersion = (key, version, callback) => {
+exports.selectStoryByVersion = (key, version, done) => {
   logger.info('stories-db.selectStoryByVersion');
-  const { docClient } = admin.initAWSConnection();
   const params = {
     TableName: storyTableName,
     Key: {
@@ -170,17 +144,17 @@ exports.selectStoryByVersion = (key, version, callback) => {
   const promise = docClient.get(params).promise();
   promise.then(
     (data) => {
-      callback(mapStoryFromDb(data));
+      done(toFlattenedForm(data));
     },
     (error) => {
-      logger.error(error);
-      logger.error('params used:', params);
-      callback(null);
+      logger.error('stories-db', error);
+      logger.error('stories-db', 'params used:', params);
+      done();
     }
   )
 };
 
-exports.selectDraftStory = (key, callback) => {
+exports.selectDraftStory = (key, done) => {
   logger.info('stories-db.selectDraftStory');
-  this.selectStoryByVersion(key, -1, callback);
+  this.selectStoryByVersion(key, -1, done);
 };

@@ -1,13 +1,5 @@
-var AWS = require("aws-sdk");
-
-var tableName = "Chapters";
-
-function initAWSConnection() {
-  AWS.config.update({
-    region: "us-west-2",
-    endpoint: "http://localhost:8000"
-  });
-}
+const admin = require('./admin-db');
+const { docClient } = admin.initAWSConnection();
 
 /**
  * Maps chapter from DynamoDB structure to internal Object structure.  The data might be returned
@@ -16,8 +8,8 @@ function initAWSConnection() {
  * @param chapter
  * @returns {*}
  */
-function mapChapterItemToApi(chapter) {
-  var chapterOut;
+const mapChapterItemToApi = chapter => {
+  let chapterOut;
   if (chapter && chapter.id) {
     chapterOut = Object.assign({}, {
       id: chapter.id,
@@ -28,40 +20,34 @@ function mapChapterItemToApi(chapter) {
   }
   console.log('chapter:', chapterOut);
   return chapterOut;
-}
+};
 
-function mapItemsToChapters(data) {
+const mapItemsToChapters = data => {
   console.log('Items:', data);
   items = data.Items;
-  chaptersOut = items.map(function(item) {
-    return mapChapterItemToApi(item);
-  });
+  chaptersOut = items.map(item => mapChapterItemToApi(item));
   return chaptersOut;
-}
+};
 
-function buildKeyVersion(key, version) {
-  var useVersion = (version < 0) ? 'd' : version;
-  return key + '-' + useVersion;
-}
+const buildKeyVersion = (key, version) => {
+  return key + '-' + (version < 0) ? 'd' : version;
+};
 
-exports.selectChapters = function(storyKey, version, callback) {
-  initAWSConnection();
-  var docClient = new AWS.DynamoDB.DocumentClient();
-  var storyKeyVersion = buildKeyVersion(storyKey, version);
-  var params = {
+exports.selectChapters = (storyKey, version, callback) => {
+  const storyKeyVersion = buildKeyVersion(storyKey, version);
+  const params = {
     TableName: tableName,
     KeyConditionExpression: "storyKeyVersion = :v1",
     ExpressionAttributeValues: {
       ":v1": storyKeyVersion
     }
   };
-
-  var promise = docClient.query(params).promise();
+  const promise = docClient.query(params).promise();
   promise.then(
-    function(data) {
+    data => {
       callback(mapItemsToChapters(data));
     },
-    function(error) {
+    error => {
       console.log('error:', error);
       console.log('params used:', params);
       callback(null);
@@ -69,23 +55,21 @@ exports.selectChapters = function(storyKey, version, callback) {
   );
 };
 
-exports.selectChapter = function(storyKey, version, chapterId, callback) {
-  initAWSConnection();
-  var docClient = new AWS.DynamoDB.DocumentClient();
-  var storyKeyVersion = buildKeyVersion(storyKey, version);
-  var params = {
+exports.selectChapter = (storyKey, version, chapterId, callback) => {
+  const storyKeyVersion = buildKeyVersion(storyKey, version);
+  const params = {
     TableName: tableName,
     Key: {
       "storyKeyVersion": storyKeyVersion,
       "id": chapterId
     }
   };
-  var promise = docClient.get(params).promise();
+  const promise = docClient.get(params).promise();
   promise.then(
-    function(data) {
+    data => {
       callback(mapChapterItemToApi(data.Item));
     },
-    function(error) {
+    error => {
       console.log('error:', error);
       console.log('params used:', params);
       callback(null);
@@ -93,6 +77,6 @@ exports.selectChapter = function(storyKey, version, chapterId, callback) {
   )
 };
 
-exports.selectDraftChapter = function(storyKey, chapterId, callback) {
+exports.selectDraftChapter = (storyKey, chapterId, callback) => {
   this.selectChapter(storyKey, -1, chapterId, callback);
 };

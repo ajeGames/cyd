@@ -1,73 +1,69 @@
-var chaptersDataAccess = require('../persistence/chapters-db');
-var logger = require('../helpers/logger');
+const chaptersDataAccess = require('../persistence/chapters-db');
+const logger = require('../helpers/logger');
 
 // TODO implement
-exports.createChapter = function(req, res) {
-  var error = {
+exports.createChapter = (req, res) => {
+  logger.info('chapters.createChapter');
+  const error = {
     code: '500',
     message: 'Not implemented'
   };
-  res.status(500);
-  res.json(error);
+  res.status(500).json(error).send();
 };
 
-exports.getDraftChapter = function(req, res) {
-  var key = req.swagger.params.storyKey.value;
-  var id = req.swagger.params.id.value;
-
-  console.log(logger.timestamp(), 'getChapter { key:', key, ', id: ', id, '}');
-  var callback = function(data) {
+exports.getDraftChapter = (req, res) => {
+  const key = req.swagger.params.storyKey.value;
+  const id = req.swagger.params.id.value;
+  logger.info('chapters.getDraftChapter { key:', key, ', id: ', id, '}');
+  const doAfter = data => {
     if (data) {
-      res.json(data);
+      res.json(data).send();
     } else {
-      var error = {
+      const error = {
         code: '404',
         message: 'Chapter was not found'
       };
-      res.status(404);
-      res.json(error);
+      res.status(404).json(error).send();
     }
   };
-  chaptersDataAccess.selectDraftChapter(key, id, callback);
+  chaptersDataAccess.selectDraftChapter(key, id, doAfter);
 };
 
 // TODO implement
-exports.updateChapter = function(req, res) {
-  var error = {
+exports.updateChapter = (req, res) => {
+  logger.info('chapters.updateChapter');
+  const error = {
     code: '500',
     message: 'Not implemented'
   };
-  res.status(500);
-  res.json(error);
+  res.status(500).json(error).send();
 };
 
 // TODO implement
-exports.updateSignpost = function(req, res) {
-  var error = {
+exports.updateSignpost = (req, res) => {
+  logger.info('chapters.updateSignpost');
+  const error = {
     code: '500',
     message: 'Not implemented'
   };
-  res.status(500);
-  res.json(error);
+  res.status(500).json(error).send();
 };
 
-exports.getChapterByVersion = function(req, res) {
-  var key = req.swagger.params.storyKey.value;
-  var version = req.swagger.params.version.value;
-  var id = req.swagger.params.id.value;
-
-  console.log(logger.timestamp(), 'getChapter { key:', key, ', version: {', version, ', id: ', id, '}');
-  var callback = function(data) {
+exports.getChapterByVersion = (req, res) => {
+  const key = req.swagger.params.storyKey.value;
+  const version = req.swagger.params.version.value;
+  const id = req.swagger.params.id.value;
+  logger.info('chapters.getChapterByVersion { key:', key, ', version: {', version, ', id: ', id, '}');
+  const doAfter = data => {
     if (data) {
-      res.json(data);
+      res.json(data).send();
     } else {
-      var error = {
+      const error = {
         code: '404',
         message: 'Chapter was not found'
       };
-      res.status(404);
-      res.json(error);
+      res.status(404).json(error).send();
     }
   };
-  chaptersDataAccess.selectChapter(key, version, id, callback);
+  chaptersDataAccess.selectChapter(key, version, id, doAfter);
 };

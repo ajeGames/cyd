@@ -1,9 +1,9 @@
 const storiesDataAccess = require('../persistence/stories-db');
 const logger = require('../helpers/logger');
 
-exports.getLatestPublishedStories = function(req, res) {
+exports.getLatestPublishedStories = (req, res) => {
   logger.info('stories.getLatestPublishedStories');
-  const callback = (data) => {
+  const doAfter = data => {
     if (data) {
       res.json(data).send();
     } else {
@@ -14,20 +14,20 @@ exports.getLatestPublishedStories = function(req, res) {
       res.status(500).json(error).send();
     }
   };
-  storiesDataAccess.selectLatestPublishedStories(callback);
+  storiesDataAccess.selectLatestPublishedStories(doAfter);
 };
 
-exports.createStory = function(req, res) {
+exports.createStory = (req, res) => {
   logger.info('stories.createStory');
   const payload = req.body;
-  const storyData = Object.assign({}, {
+  const storyInfo = {
     title: payload.title,
     penName: payload.penName,
     tagLine: payload.tagLine,
     about: payload.about,
     firstChapter: 1
-  });
-  const callback = (data) => {
+  };
+  const doAfter = data => {
     if (data) {
       res.json(data).send();
     } else {
@@ -38,13 +38,13 @@ exports.createStory = function(req, res) {
       res.status(500).json(error).send();
     }
   };
-  storiesDataAccess.insertStory(storyData, callback);
+  storiesDataAccess.insertStory(storyInfo, doAfter);
 };
 
-exports.getDraftStory = function(req, res) {
+exports.getDraftStory = (req, res) => {
   const key = req.swagger.params.key.value;
-  console.log(logger.timestamp(), 'getDraftStory { key:', key,'}');
-  const callback = function(data) {
+  logger.info('stories.getDraftStory { key:', key,'}');
+  const doAfter = data => {
     if (data) {
       res.json(data).send();
     } else {
@@ -55,14 +55,14 @@ exports.getDraftStory = function(req, res) {
       res.status(404).json(error).send();
     }
   };
-  storiesDataAccess.selectDraftStory(key, callback);
+  storiesDataAccess.selectDraftStory(key, doAfter);
 };
 
-exports.updateStory = function(req, res) {
+exports.updateStory = (req, res) => {
   const key = req.swagger.params.key.value;
   const update = req.body;
-
-  const afterUpdateCallback = (data) => {
+  logger.info('stories.updateStory { key:', key,'} update:', update);
+  const doAfterUpdate = data => {
     if (data) {
       res.json(data).send();
     } else {
@@ -73,20 +73,19 @@ exports.updateStory = function(req, res) {
       res.status(500).json(error).send();
     }
   };
-
-  const doUpdateCallback = currentStory => {
+  const doAfterGet = currentStory => {
     const updatedStory = Object.assign({}, currentStory, update);
+    logger.info('currentStory', JSON.stringify(currentStory, null, 2));
     logger.info('updatedStory', JSON.stringify(updatedStory, null, 2));
-    storiesDataAccess.insertStory(updatedStory, afterUpdateCallback);
+    storiesDataAccess.insertStory(updatedStory, doAfterUpdate);
   };
-
-  storiesDataAccess.selectDraftStory(key, doUpdateCallback);
+  storiesDataAccess.selectDraftStory(key, doAfterGet);
 };
 
-exports.getLatestPublishedStory = function(req, res) {
+exports.getLatestPublishedStory = (req, res) => {
   const key = req.swagger.params.key.value;
-  console.log(logger.timestamp(), 'getStory { key:', key,'}');
-  const callback = function(data) {
+  logger.info('stories.getLatestPublishedStory { key:', key,'}');
+  const doAfter = data => {
     if (data) {
       res.json(data).send();
     } else {
@@ -97,14 +96,14 @@ exports.getLatestPublishedStory = function(req, res) {
       res.status(404).json(error).send();
     }
   };
-  storiesDataAccess.selectLatestPublishedStory(key, callback);
+  storiesDataAccess.selectLatestPublishedStory(key, doAfter);
 };
 
-exports.getStoryByVersion = function(req, res) {
+exports.getStoryByVersion = (req, res) => {
   const key = req.swagger.params.key.value;
   const version = req.swagger.params.version.value;
-  console.log(logger.timestamp(), 'getStoryByVersion { key:', key, ', version: {', version, '}');
-  const callback = function(data) {
+  logger.info('stories.getStoryByVersion { key:', key, ', version: {', version, '}');
+  const doAfter = data => {
     if (data) {
       res.json(data).send();
     } else {
@@ -115,11 +114,14 @@ exports.getStoryByVersion = function(req, res) {
       res.status(404).json(error).send();
     }
   };
-  storiesDataAccess.selectStoryByVersion(key, version, callback);
+  storiesDataAccess.selectStoryByVersion(key, version, doAfter);
 };
 
 // TODO implement
-exports.getEntireStory = function(req, res) {
+exports.getEntireStory = (req, res) => {
+  const key = req.swagger.params.key.value;
+  const version = req.swagger.params.version.value;
+  logger.info('stories.getEntireStory { key:', key, ', version: {', version, '}');
 
   // chain promises: first get story by version, then get chapters and assemble
 

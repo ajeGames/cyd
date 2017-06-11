@@ -14,14 +14,14 @@ const initAWSConnection = () => {
 
 exports.initAWSConnection = initAWSConnection;
 
-exports.dropTables = (tablesToDrop) => {
+exports.dropTables = tablesToDrop => {
   logger.info('dropAllTables');
   const { db } = initAWSConnection();
-  tablesToDrop.forEach(function(table) {
+  tablesToDrop.forEach(table => {
     const params = {
       TableName: table
     };
-    db.deleteTable(params, function (err, data) {
+    db.deleteTable(params, (err, data) => {
       if (err) {
         logger.error("Unable to delete table.", JSON.stringify(err, null, 2));
       } else {
@@ -31,10 +31,10 @@ exports.dropTables = (tablesToDrop) => {
   });
 };
 
-exports.createTable = (tableParams) => {
+exports.createTable = tableParams => {
   logger.info('createTable');
   const { db } = initAWSConnection();
-  db.createTable(tableParams, function (err, data) {
+  db.createTable(tableParams, (err, data) => {
     if (err) {
       logger.error("Unable to create table.", JSON.stringify(err, null, 2));
     } else {
@@ -56,7 +56,7 @@ const loadChapter = (docClient, storyKey, version, chapter) => {
       "signpost": chapter.signpost
     }
   };
-  docClient.put(params, function(err) {
+  docClient.put(params, err => {
     if (err) {
       logger.error("Unable to add chapter", chapter.id, 'to story', storyKeyVersion);
       logger.error(err);
@@ -66,7 +66,7 @@ const loadChapter = (docClient, storyKey, version, chapter) => {
   });
 };
 
-exports.loadFullStory = (story) => {
+exports.loadFullStory = story => {
   const key = story.key;
   const version = story.version;
   const chapters = story.chapters;
@@ -80,7 +80,7 @@ exports.loadFullStory = (story) => {
     }
   };
   const { docClient } = initAWSConnection();
-  docClient.put(params, function(err) {
+  docClient.put(params, err => {
     if (err) {
       logger.error('Unable to add story:', key);
       logger.error(err);
