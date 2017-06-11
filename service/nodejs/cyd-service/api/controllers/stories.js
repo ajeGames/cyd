@@ -58,20 +58,29 @@ exports.getDraftStory = function(req, res) {
   storiesDataAccess.selectDraftStory(key, callback);
 };
 
-// TODO implement
 exports.updateStory = function(req, res) {
+  const key = req.swagger.params.key.value;
+  const update = req.body;
 
-  // get draft story
-
-  // merge updates with story
-
-  // return updated story
-
-  const error = {
-    code: '500',
-    message: 'Not implemented'
+  const afterUpdateCallback = (data) => {
+    if (data) {
+      res.json(data).send();
+    } else {
+      const error = {
+        code: '500',
+        message: 'There was a problem that is beyond your control.  Contact customer support.'
+      };
+      res.status(500).json(error).send();
+    }
   };
-  res.status(500).json(error).send();
+
+  const doUpdateCallback = currentStory => {
+    const updatedStory = Object.assign({}, currentStory, update);
+    logger.info('updatedStory', JSON.stringify(updatedStory, null, 2));
+    storiesDataAccess.insertStory(updatedStory, afterUpdateCallback);
+  };
+
+  storiesDataAccess.selectDraftStory(key, doUpdateCallback);
 };
 
 exports.getLatestPublishedStory = function(req, res) {

@@ -4,6 +4,23 @@ const { randomString } = require('../helpers/keyUtil');
 
 const storyTableName = "Stories";
 
+function toStorageForm(story) {
+  const { key, version, author, title, penName, tagLine, about, firstChapter, publishedAt } = story;
+  return {
+    key,
+    version,
+    author,
+    summary: {
+      title, penName, tagLine, about, firstChapter, publishedAt
+    }
+  };
+}
+
+function toFlattenedForm(item) {
+  const { key, version, author, summary: { title, penName, tagLine, about, firstChapter, publishedAt } } = item;
+  return { key, version, author, title, penName, tagLine, about, firstChapter, publishedAt };
+}
+
 /**
  * Maps story from DynamoDB structure to internal Object structure.  The data might be returned
  * from DynamoDB as-is or nested under Item or an Items array.
@@ -15,26 +32,15 @@ function mapStoryFromDb(data) {
   let storyOut;
   if (data) {
     let story;
-    if (data.Item) {
-      story = data.Item;
-    } else if (data.key) {
+    if (data.key) {
       story = data;
+    } else if (data.Item) {
+      story = data.Item;
     } else if (data.Items) {
       story = data.Items[0];
     }
     if (story && story.key) {
-      storyOut = Object.assign({},
-        {
-          key: story.key,
-          version: story.version,
-          title: story.summary.title,
-          penName: story.summary.penName,
-          tagLine: story.summary.tagLine,
-          about: story.summary.about,
-          firstChapter: story.summary.firstChapter,
-          publishedAt: story.summary.publishedAt
-        }
-      );
+      storyOut = toFlattenedForm(story);
     }
   }
   return storyOut;
@@ -112,7 +118,7 @@ exports.selectLatestPublishedStories = (callback) => {
   promise.then(
     (data) => {
       const resultsFromDB = filterHighestVersionPerUniqueKey(data);
-      const mappedResults = resultsFromDB.map(function(result) { return mapStoryFromDb(result) });
+      const mappedResults = resultsFromDB.map(function(result) { return toFlattenedForm(result) });
       callback(mappedResults);
     },
     (error) => {
