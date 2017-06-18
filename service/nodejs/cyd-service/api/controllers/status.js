@@ -7,5 +7,5 @@ exports.getStatus = (req, res) => {
     "salutation": "Hunky dory",
     "version": "1.0"
   };
-  res.status(200).json(status).send();
+  res.json(status);
 };

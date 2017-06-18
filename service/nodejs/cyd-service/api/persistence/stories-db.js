@@ -5,32 +5,12 @@ const { randomString } = require('../helpers/keyUtil');
 const { docClient } = admin.initAWSConnection();
 const storyTableName = "Stories";
 
-const toStorageForm = story => {
-  const { key, version, author, title, penName, tagLine, about, firstChapter, publishedAt } = story;
-  return {
-    key,
-    version,
-    author,
-    summary: {
-      title, penName, tagLine, about, firstChapter, publishedAt
-    }
-  };
-};
-
-const toFlattenedForm = item => {
-  const { key, version, author, summary: { title, penName, tagLine, about, firstChapter, publishedAt } } = item;
-  return { key, version, author, title, penName, tagLine, about, firstChapter, publishedAt };
-};
-
-exports.insertStory = (storySummary, done) => {
+exports.insertStory = (storyInfo, done) => {
   logger.info('stories-db.insertStory');
   const uniqueKey = randomString(12);
-  const story = {
-    key: uniqueKey,
-    version: -1,
-    author: 'anonymous',
-    summary: storySummary
-  };
+  const story = Object.assign({}, { key: uniqueKey, version: -1, author: 'anonymous' },
+    { title: storyInfo.title, penName: storyInfo.penName, tagLine: storyInfo.tagLine,
+      about: storyInfo.about });
   const params = {
     TableName: storyTableName,
     Item: story
@@ -38,7 +18,6 @@ exports.insertStory = (storySummary, done) => {
   const promise = docClient.put(params).promise();
   promise.then(
     (data) => {
-      logger.info('stories-db', 'created story');
       done(story);
     },
     (error) => {
@@ -58,7 +37,6 @@ exports.updateStory = (story, done) => {
   const promise = docClient.put(params).promise();
   promise.then(
     (data) => {
-      logger.info('stories-db', 'created story', data);
       done(story);
     },
     (error) => {
@@ -69,9 +47,9 @@ exports.updateStory = (story, done) => {
   );
 };
 
-const filterHighestVersionPerUniqueKey = data => {
+const filterHighestVersionPerUniqueKey = storyData => {
   const highestVersionPerKey = {};
-  data.Items.forEach(nextItem => {
+  storyData.forEach(nextItem => {
     const itemInMap = highestVersionPerKey[nextItem.key];
     if (!itemInMap || itemInMap.version < nextItem.version) {
       highestVersionPerKey[nextItem.key] = nextItem;
@@ -92,9 +70,8 @@ exports.selectLatestPublishedStories = done => {
   const promise = docClient.scan(params).promise();
   promise.then(
     (data) => {
-      const resultsFromDB = filterHighestVersionPerUniqueKey(data);
-      const mappedResults = resultsFromDB.map(result => toFlattenedForm(result));
-      done(mappedResults);
+      const latestStories = filterHighestVersionPerUniqueKey(data.Items);
+      done(latestStories);
     },
     (error) => {
       logger.error('stories-db', error);
@@ -122,7 +99,7 @@ exports.selectLatestPublishedStory = (key, done) => {
   const promise = docClient.query(params).promise();
   promise.then(
     (data) => {
-      done(toFlattenedForm(data));
+      done(data.Items[0]);
     },
     (error) => {
       logger.error('stories-db', error);
@@ -133,25 +110,28 @@ exports.selectLatestPublishedStory = (key, done) => {
 };
 
 exports.selectStoryByVersion = (key, version, done) => {
-  logger.info('stories-db.selectStoryByVersion');
+  logger.info('stories-db.selectStoryByVersion, key:', key, 'version:', version);
+  const versionInt = (typeof version === 'string') ? parseInt(version) : version;
   const params = {
     TableName: storyTableName,
     Key: {
       "key": key,
-      "version": version
+      "version": versionInt
     }
   };
   const promise = docClient.get(params).promise();
   promise.then(
     (data) => {
-      done(toFlattenedForm(data));
+      done(data.Item);
     },
     (error) => {
       logger.error('stories-db', error);
       logger.error('stories-db', 'params used:', params);
       done();
     }
-  )
+  ).catch(err => {
+    logger.error('something went wrong', err);
+  })
 };
 
 exports.selectDraftStory = (key, done) => {

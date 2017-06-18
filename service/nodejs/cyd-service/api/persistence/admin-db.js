@@ -67,17 +67,11 @@ const loadChapter = (docClient, storyKey, version, chapter) => {
 };
 
 exports.loadFullStory = story => {
-  const key = story.key;
-  const version = story.version;
-  const chapters = story.chapters;
+  const { key, version, chapters } = story;
+  delete story.chapters;
   const params = {
     TableName: 'Stories',
-    Item: {
-      'key': key,
-      'version': version,
-      'author': story.author,
-      'summary': story.summary
-    }
+    Item: story
   };
   const { docClient } = initAWSConnection();
   docClient.put(params, err => {

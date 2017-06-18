@@ -121,6 +121,28 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  '/stories/{key}/publish':
+    x-swagger-router-controller: stories
+    post:
+      description: Get draft story summary if one exists.
+      tags:
+        - story
+      operationId: publishDraft
+      parameters:
+        - name: key
+          in: path
+          description: story key
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/StorySummary"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   '/stories/{key}/latest':
     x-swagger-router-controller: stories
     get:
@@ -138,7 +160,7 @@ paths:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/StorySummary"
+            $ref: "#/definitions/Story"
         default:
           description: Error
           schema:
@@ -160,13 +182,13 @@ paths:
           in: path
           description: version of story to get
           required: true
-          type: integer
-          format: int32
+          type: string
+#          format: int32
       responses:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/Story"
+            $ref: "#/definitions/StorySummary"
         default:
           description: Error
           schema:

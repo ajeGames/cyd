@@ -5,7 +5,7 @@ exports.getLatestPublishedStories = (req, res) => {
   logger.info('stories.getLatestPublishedStories');
   const doAfter = data => {
     if (data) {
-      res.json(data).send();
+      res.json(data);
     } else {
       const error = {
         code: '500',
@@ -29,7 +29,7 @@ exports.createStory = (req, res) => {
   };
   const doAfter = data => {
     if (data) {
-      res.json(data).send();
+      res.json(data);
     } else {
       const error = {
         code: '500',
@@ -46,7 +46,7 @@ exports.getDraftStory = (req, res) => {
   logger.info('stories.getDraftStory { key:', key,'}');
   const doAfter = data => {
     if (data) {
-      res.json(data).send();
+      res.json(data);
     } else {
       const error = {
         code: '404',
@@ -64,7 +64,10 @@ exports.updateStory = (req, res) => {
   logger.info('stories.updateStory { key:', key,'} update:', update);
   const doAfterUpdate = data => {
     if (data) {
-      res.json(data).send();
+      res.json({
+        success: 200,
+        description: `Updated story ${key}`
+      });
     } else {
       const error = {
         code: '500',
@@ -87,7 +90,7 @@ exports.getLatestPublishedStory = (req, res) => {
   logger.info('stories.getLatestPublishedStory { key:', key,'}');
   const doAfter = data => {
     if (data) {
-      res.json(data).send();
+      res.json(data);
     } else {
       const error = {
         code: '404',
@@ -102,7 +105,11 @@ exports.getLatestPublishedStory = (req, res) => {
 exports.getStoryByVersion = (req, res) => {
   const key = req.swagger.params.key.value;
   const version = req.swagger.params.version.value;
-  logger.info('stories.getStoryByVersion { key:', key, ', version: {', version, '}');
+  logger.info('stories.getStoryByVersion { key:', key, ', version:', version, '}');
+  if (version === 'latest') {
+    this.getLatestPublishedStory(req, res);
+    return;
+  }
   const doAfter = data => {
     if (data) {
       res.json(data).send();

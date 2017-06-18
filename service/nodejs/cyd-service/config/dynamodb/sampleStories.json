@@ -3,14 +3,12 @@
     "key": "abcd0001wxyz",
     "version": 1,
     "author": "e49a7252-acbc-4ca8-976c-17624fea822c",
-    "summary": {
-      "title": "Frost Bite",
-      "penName": "Buster V.",
-      "tagLine": "Don't touch the water.",
-      "about": "Buster V. brings us another ironic adventure full of intrigue.  Test your wits?",
-      "firstChapter": 1000,
-      "publishedAt": "2017-02-17T01:45:55Z"
-    },
+    "title": "Frost Bite",
+    "penName": "Buster V.",
+    "tagLine": "Don't touch the water.",
+    "about": "Buster V. brings us another ironic adventure full of intrigue.  Test your wits?",
+    "firstChapter": 1000,
+    "publishedAt": "2017-02-17T01:45:55Z",
     "chapters": [
       {
         "id": 1000,
@@ -43,14 +41,12 @@
     "key": "abcd0001wxyz",
     "version": 2,
     "author": "e49a7252-acbc-4ca8-976c-17624fea822c",
-    "summary": {
-      "title": "Frost Bite",
-      "penName": "Buster V. Crumb",
-      "tagLine": "Is it me, or is it getting cold in here?",
-      "about": "Buster V. brings us another ironic adventure full of intrigue.  Test your wits and stay warm?",
-      "firstChapter": 1000,
-      "publishedAt": "2017-04-06T11:23:07Z"
-    },
+    "title": "Frost Bite",
+    "penName": "Buster V. Crumb",
+    "tagLine": "Is it me, or is it getting cold in here?",
+    "about": "Buster V. brings us another ironic adventure full of intrigue.  Test your wits and stay warm?",
+    "firstChapter": 1000,
+    "publishedAt": "2017-04-06T11:23:07Z",
     "chapters": [
       {
         "id": 1000,
@@ -103,13 +99,11 @@
     "key": "abcd0001wxyz",
     "version": -1,
     "author": "e49a7252-acbc-4ca8-976c-17624fea822c",
-    "summary": {
-      "title": "DRAFT Frost Bite",
-      "penName": "DRAFT Buster V.",
-      "tagLine": "draft, draft, draft, draft, draft, draft, draft...",
-      "about": "DRAFT Buster V. brings us another ironic adventure full of intrigue.  Test your wits and avoid the chill of a lifetime?",
-      "firstChapter": 1000
-    },
+    "title": "DRAFT Frost Bite",
+    "penName": "DRAFT Buster V.",
+    "tagLine": "draft, draft, draft, draft, draft, draft, draft...",
+    "about": "DRAFT Buster V. brings us another ironic adventure full of intrigue.  Test your wits and avoid the chill of a lifetime?",
+    "firstChapter": 1000,
     "chapters": [
       {
         "id": 1000,
@@ -166,14 +160,12 @@
     "key": "efgh1234qwer",
     "version": 1,
     "author": "64f0be1c-c2a9-40d9-96fb-820aac3a4099",
-    "summary": {
-      "title": "Punchy Whale",
-      "penName": "Buster V.",
-      "tagLine": "Don't touch the water.",
-      "about": "This is the challenge you have been searching for.  Will you be able to find the prize?",
-      "firstChapter": 1000,
-      "publishedAt": "2017-05-17T02:03:01Z"
-    },
+    "title": "Punchy Whale",
+    "penName": "Buster V.",
+    "tagLine": "Don't touch the water.",
+    "about": "This is the challenge you have been searching for.  Will you be able to find the prize?",
+    "firstChapter": 1000,
+    "publishedAt": "2017-05-17T02:03:01Z",
     "chapters": [
       {
         "id": 1000,
@@ -201,26 +193,21 @@
     "key": "zyxv0042poiu",
     "version": -1,
     "author": "e49a7252-acbc-4ca8-976c-17624fea822c",
-    "summary": {
-      "title": "Bring Home the Bacon",
-      "penName": "Buster V.",
-      "tagLine": "Who's hungry?",
-      "about": "Your family is starving, literally.  You need to do something fast, but you also need to survive.",
-      "firstChapter": 1000
-    }
+    "title": "Bring Home the Bacon",
+    "penName": "Buster V.",
+    "tagLine": "Who's hungry?",
+    "about": "Your family is starving, literally.  You need to do something fast, but you also need to survive.",
+    "firstChapter": 1000
   },
   {
     "key": "spottydata",
     "version": 1,
     "publishedAt": "2017-05-20T012:37:42Z",
-    "summary": {
-      "title": "Bring Home the Bacon",
-      "penName": "Buster V."
-    }
+    "title": "Bring Home the Bacon",
+    "penName": "Buster V."
   },
   {
     "key": "spottierdata",
-    "version": -1,
-    "summary": {}
+    "version": -1
   }
 ]
