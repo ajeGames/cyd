@@ -25,6 +25,8 @@ describe('stories-db', function () {
     it('gets specific version of story', function () {
       storiesDataAccess.selectStoryByVersion('abcd0001wxyz', 2, checkResults);
     });
+
+    xit('gets full story, including all chapters');
   });
 
   describe('story editing methods', function () {
@@ -72,5 +74,7 @@ describe('stories-db', function () {
         done();
       });
     });
+
+    xit('publishes draft');
   });
 });
