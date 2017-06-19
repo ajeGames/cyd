@@ -21,7 +21,6 @@ const mapChapterItemToApi = chapter => {
       signpost: chapter.signpost || []
     });
   }
-  // console.log('chapter:', chapterOut);
   return chapterOut;
 };
 
@@ -32,27 +31,51 @@ const buildKeyVersion = (key, version) => {
   return key + '-' + versionToUse;
 };
 
-// exports.insertChapter = (chapterInfo, done) => {
-//   logger.info('chapters-db.insertChapter');
-//   const story = Object.assign({}, { key: uniqueKey, version: -1, author: 'anonymous' },
-//     { title: chapterInfo.title, penName: chapterInfo.penName, tagLine: chapterInfo.tagLine,
-//       about: chapterInfo.about });
-//   const params = {
-//     TableName: tableName,
-//     Item: story
-//   };
-//   const promise = docClient.put(params).promise();
-//   promise.then(
-//     (data) => {
-//       done(story);
-//     },
-//     (error) => {
-//       logger.error('chapters-db', error);
-//       logger.error('chapters-db', 'params used:', params);
-//       done();
-//     }
-//   );
-// };
+exports.insertChapter = (storyKey, chapterInfo, done) => {
+  logger.info('chapters-db.insertChapter:', storyKey, ':',chapterInfo.id);
+  const chapter = {
+    storyKeyVersion: buildKeyVersion(storyKey, -1),
+    id: chapterInfo.id,
+    title: chapterInfo.title,
+    prose: chapterInfo.prose
+  };
+  const params = {
+    TableName: tableName,
+    Item: chapter
+  };
+  const promise = docClient.put(params).promise();
+  promise.then(
+    data => done(mapChapterItemToApi(chapter)),
+    error => {
+      logger.error('chapters-db', error);
+      logger.error('chapters-db', 'params used:', params);
+      done();
+    }
+  );
+};
+
+exports.insertChapter = (storyKey, chapterInfo, done) => {
+  logger.info('chapters-db.insertChapter:', storyKey, ':',chapterInfo.id);
+  const chapter = {
+    storyKeyVersion: buildKeyVersion(storyKey, -1),
+    id: chapterInfo.id,
+    title: chapterInfo.title,
+    prose: chapterInfo.prose
+  };
+  const params = {
+    TableName: tableName,
+    Item: chapter
+  };
+  const promise = docClient.put(params).promise();
+  promise.then(
+    data => done(mapChapterItemToApi(chapter)),
+    error => {
+      logger.error('chapters-db', error);
+      logger.error('chapters-db', 'params used:', params);
+      done();
+    }
+  );
+};
 
 exports.selectChapters = (storyKey, version, done) => {
   logger.info('chapters-db.selectChapters');
