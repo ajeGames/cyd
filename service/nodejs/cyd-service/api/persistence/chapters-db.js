@@ -77,6 +77,24 @@ exports.insertChapter = (storyKey, chapterInfo, done) => {
   );
 };
 
+exports.updateChapter = (storyKey, chapterUpdate, done) => {
+  logger.info('chapters-db.updateChapter');
+  const update = Object.assign({}, { storyKeyVersion: buildKeyVersion(storyKey, -1) }, chapterUpdate);
+  const params = {
+    TableName: tableName,
+    Item: update
+  };
+  const promise = docClient.put(params).promise();
+  promise.then(
+    data => done(chapterUpdate),
+    error => {
+      logger.error('stories-db', error);
+      logger.error('stories-db', 'params used:', params);
+      done();
+    }
+  );
+};
+
 exports.selectChapters = (storyKey, version, done) => {
   logger.info('chapters-db.selectChapters');
   const storyKeyVersion = buildKeyVersion(storyKey, version);
@@ -87,7 +105,6 @@ exports.selectChapters = (storyKey, version, done) => {
       ":v1": storyKeyVersion
     }
   };
-  // logger.info('query params', params);
   const promise = docClient.query(params).promise();
   promise.then(
     data => done(mapItemsToChapters(data)),

@@ -92,24 +92,29 @@ describe('chapters-db', function () {
       chaptersDataAccess.selectDraftChapter('abcd0001wxyz', 1000, callback);
     });
 
-    xit('updates chapter', function (done) {
+    it('updates chapter', function (done) {
+      const original = {
+        id: 42,
+        title: 'Original title',
+        prose: 'Original prose'
+      };
       const changes = {
+        id: 42,
         title: 'UPDATE title',
         prose: 'UPDATE prose'
       };
-      const chapterUpdate = Object.assign({}, storyToTest, changes);
-      storiesDataAccess.updateStory(storyUpdate, function (results) {
-        results.key.should.equal(storyToTest.key);
-        results.version.should.equal(-1);
-        results.author.should.equal(storyToTest.author);
-        results.title.should.equal(changes.title);
-        results.penName.should.equal(changes.penName);
-        results.tagLine.should.equal(changes.tagLine);
-        results.about.should.equal(changes.about);
-        results.firstChapter.should.equal(changes.firstChapter);
-        done();
-      });
+      const doAfterChange = changeResults => {
+        logger.info('doAfterChange', changeResults);
+        changeResults.id.should.equal(42);
+        changeResults.title.should.equal('UPDATE title');
+      };
+      const doAfterCreate = results => {
+        logger.info('doAfterCreate', results);
+        chaptersDataAccess.updateChapter('abcdefg', changes, wrapAsserts(doAfterChange, done));
+      };
+      chaptersDataAccess.insertChapter('abcdefg', original, doAfterCreate);
     });
+
     xit('adds sign to signpost');
     xit('removes sign from signpost');
     xit('updates sign from signpost');
