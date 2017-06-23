@@ -1,6 +1,6 @@
 'use strict'
 // Include our "db"
-var db = require('../../config/db')()
+var db = require('../../config/db-movie')()
 // Exports all the functions to perform on the db
 module.exports = {getAll, save, getOne, update, delMovie}
 

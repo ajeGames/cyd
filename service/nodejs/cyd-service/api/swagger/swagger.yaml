@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
   title: Choose Your Destiny API
-  description: Service that manages choose-your-own-adventure style stories.
+  description: Service that manages choose-your-own-adventure style stories. This API handles retrieval of published stories as well as creation and updates to stories in draft mode.  Draft stories can also be published using this API.
   termsOfService: 'http://www.ajegames.com/blog/terms-of-use/'
   contact:
     name: AJE Games Support
@@ -39,10 +39,10 @@ paths:
   /stories:
     x-swagger-router-controller: stories
     get:
-      description: Get all story summaries.
+      description: Get all story summaries of published stories.
       tags:
         - story
-      operationId: getAll
+      operationId: getLatestPublishedStories
       responses:
         "200":
           description: Success
@@ -53,7 +53,7 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
     post:
-      description: Start editing a new story.
+      description: Create a new story in draft mode, ready for editing.
       tags:
         - story
       operationId: createStory
@@ -76,10 +76,10 @@ paths:
   /stories/{key}:
     x-swagger-router-controller: stories
     get:
-      description: Get story summary.
+      description: Get draft story summary if one exists.
       tags:
         - story
-      operationId: getStory
+      operationId: getDraftStory
       parameters:
         - name: key
           in: path
@@ -96,7 +96,7 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
     put:
-      description: Updates summary information about a story.
+      description: Updates summary information about a draft story.
       tags:
         - story
       operationId: updateStory
@@ -121,13 +121,35 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  '/stories/{key}/entire':
+  '/stories/{key}/publish':
     x-swagger-router-controller: stories
-    get:
-      description: Get entire story.
+    post:
+      description: Get draft story summary if one exists.
       tags:
         - story
-      operationId: getEntireStory
+      operationId: publishDraft
+      parameters:
+        - name: key
+          in: path
+          description: story key
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/StorySummary"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  '/stories/{key}/latest':
+    x-swagger-router-controller: stories
+    get:
+      description: Get story summary for latest published version of story.
+      tags:
+        - story
+      operationId: getLatestPublishedStory
       parameters:
         - name: key
           in: path
@@ -143,15 +165,71 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  '/stories/{key}/chapters':
+  '/stories/{key}/{version}':
+    x-swagger-router-controller: stories
+    get:
+      description: Get story summary.
+      tags:
+        - story
+      operationId: getStoryByVersion
+      parameters:
+        - name: key
+          in: path
+          description: story key
+          required: true
+          type: string
+        - name: version
+          in: path
+          description: version of story to get
+          required: true
+          type: string
+#          format: int32
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/StorySummary"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  '/stories/{key}/{version}/full':
+    x-swagger-router-controller: stories
+    get:
+      description: Get entire published story, including all chapters.  This is useful for backups and to avoid network "chattiness."
+      tags:
+        - story
+      operationId: getEntireStory
+      parameters:
+        - name: key
+          in: path
+          description: story key
+          required: true
+          type: string
+        - name: version
+          in: path
+          description: version of story to get
+          required: true
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Story"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  '/chapters/{storyKey}':
     x-swagger-router-controller: chapters
     post:
-      description: Creates a chapter with given information.
+      description: Creates a draft chapter with given information.
       tags:
         - story
       operationId: createChapter
       parameters:
-        - name: key
+        - name: storyKey
           in: path
           description: story key
           required: true
@@ -171,15 +249,15 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  '/stories/{key}/chapters/{id}':
+  '/chapters/{storyKey}/draft/{id}':
     x-swagger-router-controller: chapters
     get:
-      description: Gets a chapter.
+      description: Gets a draft chapter.
       tags:
         - story
-      operationId: getChapter
+      operationId: getDraftChapter
       parameters:
-        - name: key
+        - name: storyKey
           in: path
           description: story key
           required: true
@@ -200,12 +278,12 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
     put:
-      description: Updates a chapter.
+      description: Updates a draft chapter.
       tags:
         - story
       operationId: updateChapter
       parameters:
-        - name: key
+        - name: storyKey
           in: path
           description: story key
           required: true
@@ -231,41 +309,15 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  '/stories/{key}/chapters/{id}/signpost':
+  '/chapters/{storyKey}/draft/{id}/signpost':
     x-swagger-router-controller: chapters
-    get:
-      description: Retrieves just the signpost portion of the chapter
-      tags:
-        - story
-      operationId: getSignpost
-      parameters:
-        - name: key
-          in: path
-          description: story key
-          required: true
-          type: string
-        - name: id
-          in: path
-          description: chapter ID
-          required: true
-          type: integer
-          format: int32
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/Signpost"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
     put:
-      description: Updates signs on signpost, adding new signs as needed.  (Use delete to remove signs.)
+      description: Updates signpost of draft chapter, adding, changing and removing as specified.
       tags:
         - story
       operationId: updateSignpost
       parameters:
-        - name: key
+        - name: storyKey
           in: path
           description: story key
           required: true
@@ -291,6 +343,40 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  '/chapters/{storyKey}/{version}/{id}':
+    x-swagger-router-controller: chapters
+    get:
+      description: Retrieves chapter for specified story version.
+      tags:
+        - story
+      operationId: getChapterByVersion
+      parameters:
+        - name: storyKey
+          in: path
+          description: story key
+          required: true
+          type: string
+        - name: version
+          in: path
+          description: version of story to get
+          required: true
+          type: integer
+          format: int32
+        - name: id
+          in: path
+          description: chapter ID
+          required: true
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Signpost"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
 
   /swagger:
     x-swagger-pipe: swagger_raw
@@ -308,7 +394,7 @@ definitions:
   Chapter:
     type: object
     properties:
-      chapterId:
+      id:
         type: integer
         format: int32
       title:
@@ -358,7 +444,7 @@ definitions:
   Signpost:
     type: object
     properties:
-      chapterId:
+      sourceChapterId:
         type: integer
         format: int32
       destinations:
@@ -401,8 +487,9 @@ definitions:
     properties:
       key:
         type: string
-      authorId:
-        type: string
+      version:
+        type: integer
+        format: int32
       title:
         type: string
       penName:
@@ -417,9 +504,6 @@ definitions:
       publishedAt:
         type: string
         format: date-time
-      version:
-        type: integer
-        format: int32
   StorySummaryUpdate:
     type: object
     properties:

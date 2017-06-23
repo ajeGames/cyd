@@ -4,19 +4,19 @@ import fetch from 'isomorphic-fetch';
 const serviceEndpoint = 'http://localhost:3000/api';
 
 export function ping() {
-  return fetch(`${ serviceEndpoint }/storytime`);
+  return fetch(`${ serviceEndpoint }/status`);
 }
 
 export function getStorySummaries() {
-  return fetch(`${ serviceEndpoint }/storytime/stories`);
+  return fetch(`${ serviceEndpoint }/stories`);
 }
 
-export function getStorySummary(storyKey) {
-  return fetch(`${ serviceEndpoint }/story/${ storyKey }/summary`);
+export function getStorySummary(storyKey, version) {
+  return fetch(`${ serviceEndpoint }/stories/${ storyKey }/${ version }`);
 }
 
-export function getChapter(storyKey, chapterId) {
-  return fetch(`${ serviceEndpoint }/story/${ storyKey }/chapters/${ chapterId }`);
+export function getChapter(storyKey, version, chapterId) {
+  return fetch(`${ serviceEndpoint }/stories/${ storyKey }/${ version }/chapters/${ chapterId }`);
 }
 
 /*
