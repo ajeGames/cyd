@@ -1,0 +1,213 @@
+[
+  {
+    "key": "abcd0001wxyz",
+    "version": 1,
+    "author": "e49a7252-acbc-4ca8-976c-17624fea822c",
+    "title": "Frost Bite",
+    "penName": "Buster V.",
+    "tagLine": "Don't touch the water.",
+    "about": "Buster V. brings us another ironic adventure full of intrigue.  Test your wits?",
+    "firstChapter": 1000,
+    "publishedAt": "2017-02-17T01:45:55Z",
+    "chapters": [
+      {
+        "id": 1000,
+        "title": "It all starts here.",
+        "prose": "This is where it all starts.  Blah blah blah...",
+        "signpost": [
+          {
+            "destinationId": 1001,
+            "teaser": "Go this way."
+          },
+          {
+            "destinationId": 1002,
+            "teaser": "Go that way."
+          }
+        ]
+      },
+      {
+        "id": 1001,
+        "title": "You win!",
+        "prose": "You must be a genius.  Or maybe you just got lucky..."
+      },
+      {
+        "id": 1002,
+        "title": "You lose.",
+        "prose": "That's too bad, but didn't you notice you always make the wrong decisions?  Next time, stay home."
+      }
+    ]
+  },
+  {
+    "key": "abcd0001wxyz",
+    "version": 2,
+    "author": "e49a7252-acbc-4ca8-976c-17624fea822c",
+    "title": "Frost Bite",
+    "penName": "Buster V. Crumb",
+    "tagLine": "Is it me, or is it getting cold in here?",
+    "about": "Buster V. brings us another ironic adventure full of intrigue.  Test your wits and stay warm?",
+    "firstChapter": 1000,
+    "publishedAt": "2017-04-06T11:23:07Z",
+    "chapters": [
+      {
+        "id": 1000,
+        "title": "It all starts here.",
+        "prose": "This is where it all starts.  Blah blah blah...",
+        "signpost": [
+          {
+            "destinationId": 1001,
+            "teaser": "Go this way."
+          },
+          {
+            "destinationId": 1002,
+            "teaser": "Go that way."
+          }
+        ]
+      },
+      {
+        "id": 1001,
+        "title": "You win!",
+        "prose": "You must be a genius.  Or maybe you just got lucky..."
+      },
+      {
+        "id": 1002,
+        "title": "A Surprising New Twist",
+        "prose": "You wonder what's in store.  Now decide which way to go and you'll find out.",
+        "signpost": [
+          {
+            "destinationId": 1003,
+            "teaser": "Go this way."
+          },
+          {
+            "destinationId": 1004,
+            "teaser": "Go that way."
+          }
+        ]
+      },
+      {
+        "id": 1003,
+        "title": "You win big.",
+        "prose": "Wow!  Who knew you would make the call.  It's so unlike you."
+      },
+      {
+        "id": 1004,
+        "title": "You lose.",
+        "prose": "That's too bad, but didn't you notice you always make the wrong decisions?  Next time, stay home."
+      }
+    ]
+  },
+  {
+    "key": "abcd0001wxyz",
+    "version": -1,
+    "author": "e49a7252-acbc-4ca8-976c-17624fea822c",
+    "title": "DRAFT Frost Bite",
+    "penName": "DRAFT Buster V.",
+    "tagLine": "draft, draft, draft, draft, draft, draft, draft...",
+    "about": "DRAFT Buster V. brings us another ironic adventure full of intrigue.  Test your wits and avoid the chill of a lifetime?",
+    "firstChapter": 1000,
+    "chapters": [
+      {
+        "id": 1000,
+        "title": "It all starts here.",
+        "prose": "This is where it all starts.  Blah blah blah...",
+        "signpost": [
+          {
+            "destinationId": 1001,
+            "teaser": "Go this way."
+          },
+          {
+            "destinationId": 1002,
+            "teaser": "Go that way."
+          },
+          {
+            "destinationId": 1004,
+            "teaser": "Go the other way."
+          }
+        ]
+      },
+      {
+        "id": 1001,
+        "title": "You win!",
+        "prose": "You must be a genius.  Or maybe you just got lucky..."
+      },
+      {
+        "id": 1002,
+        "title": "A Surprising New Twist",
+        "prose": "You wonder what's in store.  Now decide which way to go and you'll find out.",
+        "signpost": [
+          {
+            "destinationId": 1003,
+            "teaser": "Go here."
+          },
+          {
+            "destinationId": 1004,
+            "teaser": "Go there."
+          }
+        ]
+      },
+      {
+        "id": 1003,
+        "title": "You win big.",
+        "prose": "Wow!  Who knew you would make the call.  It's so unlike you."
+      },
+      {
+        "id": 1004,
+        "title": "You lose.",
+        "prose": "That's too bad, but didn't you notice you always make the wrong decisions?  Next time, stay home."
+      }
+    ]
+  },
+  {
+    "key": "efgh1234qwer",
+    "version": 1,
+    "author": "64f0be1c-c2a9-40d9-96fb-820aac3a4099",
+    "title": "Punchy Whale",
+    "penName": "Buster V.",
+    "tagLine": "Don't touch the water.",
+    "about": "This is the challenge you have been searching for.  Will you be able to find the prize?",
+    "firstChapter": 1000,
+    "publishedAt": "2017-05-17T02:03:01Z",
+    "chapters": [
+      {
+        "id": 1000,
+        "title": "Humble Beginnings",
+        "prose": "Little Johnny thought he at the start of yet another humdrum day at the Bartlet academy for average children.  Little did he know that his day was about to be wrecked by a careless reader.",
+        "signpost": [
+          {
+            "destinationId": 1001,
+            "teaser": "Make Johnny go to school."
+          },
+          {
+            "destinationId": 1001,
+            "teaser": "Make Johnny skip school and go to the arcade."
+          }
+        ]
+      },
+      {
+        "id": 1001,
+        "title": "Johnny Goes to School.",
+        "prose": "Yup, this is definitely going to be one of those normal, ordinary days."
+      }
+    ]
+  },
+  {
+    "key": "zyxv0042poiu",
+    "version": -1,
+    "author": "e49a7252-acbc-4ca8-976c-17624fea822c",
+    "title": "Bring Home the Bacon",
+    "penName": "Buster V.",
+    "tagLine": "Who's hungry?",
+    "about": "Your family is starving, literally.  You need to do something fast, but you also need to survive.",
+    "firstChapter": 1000
+  },
+  {
+    "key": "spottydata",
+    "version": 1,
+    "publishedAt": "2017-05-20T012:37:42Z",
+    "title": "Bring Home the Bacon",
+    "penName": "Buster V."
+  },
+  {
+    "key": "spottierdata",
+    "version": -1
+  }
+]
