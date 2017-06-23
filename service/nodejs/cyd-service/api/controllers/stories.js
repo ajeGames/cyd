@@ -80,7 +80,7 @@ exports.updateStory = (req, res) => {
     const updatedStory = Object.assign({}, currentStory, update);
     logger.info('currentStory', JSON.stringify(currentStory, null, 2));
     logger.info('updatedStory', JSON.stringify(updatedStory, null, 2));
-    storiesDataAccess.insertStory(updatedStory, doAfterUpdate);
+    storiesDataAccess.updateStory(updatedStory, doAfterUpdate);
   };
   storiesDataAccess.selectDraftStory(key, doAfterGet);
 };

@@ -5,26 +5,59 @@ const logger = require('../../../api/helpers/logger');
 
 
 describe('stories', () => {
-  describe('GET /v1/stories', () => {
-    it('returns summaries of all published stories', (done) => {
-      const examineResults = (err, res) => {
-        should.not.exist(err);
-        const items = res.body;
-        items.length.should.be.above(0);
-        items[0].should.have.properties('key', 'version', 'author', 'title', 'penName', 'tagLine',
-          'about', 'firstChapter', 'publishedAt');
-        done();
-      };
-      request(server)
-        .get('/v1/stories')
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end(examineResults);
+  describe('retrieve stories', () => {
+    describe('GET /v1/stories', () => {
+      it('returns summaries of all published stories', (done) => {
+        const examineResults = (err, res) => {
+          should.not.exist(err);
+          const items = res.body;
+          items.length.should.be.above(0);
+          items[0].should.have.properties('key', 'version', 'author', 'title', 'penName', 'tagLine',
+            'about', 'firstChapter', 'publishedAt');
+          done();
+        };
+        request(server)
+          .get('/v1/stories')
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .end(examineResults);
+      });
+    });
+    describe('GET /v1/stories/{key}/{version}', () => {
+      it('returns specific version of story summary', (done) => {
+        const examineResults = (err, res) => {
+          should.not.exist(err);
+          const item = res.body;
+          should.exist(item);
+          item.should.have.properties('key', 'version', 'author', 'title', 'penName', 'tagLine',
+            'about', 'firstChapter', 'publishedAt');
+          item.version.should.equal(2);
+          done();
+        };
+        request(server)
+          .get('/v1/stories/abcd0001wxyz/2')
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .end(examineResults);
+      });
     });
   });
   describe('manage draft stories', () => {
-    const initNewStory = (callback) => {
+    const getDraftStory = (key, done) => {
+      request(server)
+        .get(`/v1/stories/${ key }`)
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+          logger.info('got draft story', res.body);
+          should.not.exist(err);
+          done(res.body);
+        });
+    };
+    const initNewStory = callback => {
       const initialSummary = {
         title: 'this is a TEST story',
         penName: 'bubba the TESTer',
@@ -80,44 +113,35 @@ describe('stories', () => {
       });
     });
     describe('PUT /v1/stories/{key}', () => {
-      let testStory;
-      beforeEach(function(done) {
-        const doAfter = results => {
-          testStory = results;
-          done();
-        };
-        initNewStory(doAfter);
-      });
+      const update = {
+        title: 'UPDATE My test story',
+        penName: 'UPDATE Test Bubba Test',
+        tagLine: 'UPDATE This is a tag line',
+        about: 'UPDATE Tell you what this is all about.',
+        firstChapter: 23
+      };
       it('updates a draft story', (done) => {
-        const update = {
-          title: 'UPDATE My test story',
-          penName: 'UPDATE Test Bubba Test',
-          tagLine: 'UPDATE This is a tag line',
-          about: 'UPDATE Tell you what this is all about.'
-        };
-        const examineResults = (err, res) => {
+        const doVerifyStory = updatedStory => {
           try {
-            should.not.exist(err);
-            const item = res.body;
-            item.should.have.properties('success', 'description');
+            updatedStory.version.should.equal(-1);
+            updatedStory.title.should.equal(update.title);
+            updatedStory.firstChapter.should.equal(update.firstChapter);
             done();
           }
           catch (err) {
             done(err);
           }
-          // TODO extract method to GET story that can be used for validation
-          // try {
-          //   item.key.should.equal('abcd0001wxyz');
-          //   item.version.should.equal(-1);
-          //   item.title.should.equal(update.title);
-          //   item.penName.should.equal(update.penName);
-          //   item.tagLine.should.equal(update.tagLine);
-          //   item.about.should.equal(update.about);
-          //   done();
-          // }
-          // catch (err) {
-          //   done (err);
-          // }
+        };
+        const doCheckResponse = (err, res) => {
+          try {
+            should.not.exist(err);
+            const item = res.body;
+            item.should.have.properties('success', 'description');
+            getDraftStory(testDraftStory.key, doVerifyStory);
+          }
+          catch (err) {
+            done(err);
+          }
         };
         request(server)
           .put(`/v1/stories/${testDraftStory.key}`)
@@ -125,27 +149,8 @@ describe('stories', () => {
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
           .expect(200)
-          .end(examineResults);
+          .end(doCheckResponse);
       });
-    });
-  });
-  describe('GET /v1/stories/{key}/{version}', () => {
-    it('returns specific version of story summary', (done) => {
-      const examineResults = (err, res) => {
-        should.not.exist(err);
-        const item = res.body;
-        should.exist(item);
-        item.should.have.properties('key', 'version', 'author', 'title', 'penName', 'tagLine',
-          'about', 'firstChapter', 'publishedAt');
-        item.version.should.equal(2);
-        done();
-      };
-      request(server)
-        .get('/v1/stories/abcd0001wxyz/2')
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end(examineResults);
     });
   });
 });

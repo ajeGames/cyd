@@ -8,9 +8,8 @@ const storyTableName = "Stories";
 exports.insertStory = (storyInfo, done) => {
   logger.info('stories-db.insertStory');
   const uniqueKey = randomString(12);
-  const story = Object.assign({}, { key: uniqueKey, version: -1, author: 'anonymous' },
-    { title: storyInfo.title, penName: storyInfo.penName, tagLine: storyInfo.tagLine,
-      about: storyInfo.about });
+  const story = { key: uniqueKey, version: -1, author: 'anonymous', title: storyInfo.title,
+    penName: storyInfo.penName, tagLine: storyInfo.tagLine, about: storyInfo.about };
   const params = {
     TableName: storyTableName,
     Item: story
@@ -34,6 +33,7 @@ exports.updateStory = (story, done) => {
     TableName: storyTableName,
     Item: story
   };
+  logger.info('story update', story);
   const promise = docClient.put(params).promise();
   promise.then(
     (data) => {
