@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { receiveStorySummaries, fetchStorySummaries } from '../appstate/actions';
-import { storySummaries } from '../apidata';
+// import { storySummaries } from '../apidata';
 import Library from './Library';
 
 const mapStateToProps = (state) => {
@@ -21,9 +21,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     cancelRefreshStories: () => {
       dispatch(receiveStorySummaries(new Error('User canceled')));
-    },
-    completeRefreshStories: () => {
-      dispatch(receiveStorySummaries(storySummaries));  // TODO have this call the server
     }
   }
 };

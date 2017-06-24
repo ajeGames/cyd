@@ -41,17 +41,17 @@ const CardCatalog = ({ stories }) => {
       </Container>
     )
   }
-}
+};
 
 const Library = (props) => {
+  const { summaries, loading, cancelRefreshStories, refreshStories } = props;
   let actionBar;
-  if (props.loading) {
+  if (loading) {
     actionBar = (
       <div>
         <p>
           Stories are loading. Please wait.
-          <Button color="primary" onClick={ props.completeRefreshStories }>Complete</Button>
-          <Button color="danger" onClick={ props.cancelRefreshStories }>Cancel</Button>
+          <Button color="danger" onClick={ cancelRefreshStories }>Cancel</Button>
         </p>
         <hr />
       </div>
@@ -59,7 +59,7 @@ const Library = (props) => {
   } else {
     actionBar = (
       <div>
-        <p>Click to refresh list of stories. <Button color="primary" onClick={ props.refreshStories }>Refresh Stories</Button></p>
+        <p>Click to refresh list of stories. <Button color="primary" onClick={ refreshStories }>Refresh Stories</Button></p>
         <hr />
       </div>
     )
@@ -71,7 +71,7 @@ const Library = (props) => {
         <h3 className="text-center panel-title">Welcome to the Library.</h3></div>
       <div className="panel-body">
         { actionBar }
-        <CardCatalog stories={ props.summaries } />
+        <CardCatalog stories={ summaries } />
       </div>
     </div>
   )
