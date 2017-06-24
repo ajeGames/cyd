@@ -2,6 +2,7 @@ import 'babel-polyfill';  // here because of isomorphic-fetch used to interact w
 import React from 'react';
 import { render } from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.css';
+import '../public/styles.min.css';
 import App from './App';
 
 render(

@@ -5,6 +5,7 @@ import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import { createStore, applyMiddleware, compose } from 'redux';
 import storyTimeApp from './appstate/reducers';
+import HomePage from './components/HomePage';
 import LibraryContainer from './components/LibraryContainer';
 import ReaderContainer from './components/ReaderContainer';
 import NumberGuessing from './components/NumberGuessing';
@@ -27,7 +28,8 @@ const App = () => (
       <div>
         <h3>StoryTime</h3>
         <p><Link to="/">StoryTime</Link> | <Link to="/guess">Number Guessing Game</Link></p>
-        <Route exact path="/" component={ LibraryContainer } />
+        <Route exact path="/" component={ HomePage } />
+        <Route exact path="/library" component={ LibraryContainer } />
         <Route path="/reader" component={ ReaderContainer } />
         <Route path="/guess" component={ NumberGuessing } />
       </div>
