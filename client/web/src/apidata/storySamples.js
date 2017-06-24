@@ -2,7 +2,7 @@ export const storyThatStartsAtTheEnd = {
   summary: {
     key: "o9s0toym",
     title: "The Cave",
-    penName: "Bubba Gumpzzz"
+    penName: "Bubba Gumpzzz",
     tagLine: "You want to read this.",
     about: "Sometimes life compels you great things.  And sometimes you'd rather play this game.",
     firstChapter: "1000"
@@ -20,7 +20,7 @@ export const shortStory = {
   summary: {
     key: "uniquestorykey1",
     title: "Bye",
-    penName: "Little Miss Perfect"
+    penName: "Little Miss Perfect",
     tagLine: "tag line",
     about: "about",
     firstChapter: 1,
