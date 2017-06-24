@@ -68,7 +68,8 @@ const Library = (props) => {
   return (
     <div className="panel panel-default">
       <div className="panel-heading">
-        <h3 className="text-center panel-title">Welcome to the Library.</h3></div>
+        <h3 className="text-center panel-title">Welcome to the Library.</h3>
+      </div>
       <div className="panel-body">
         { actionBar }
         <CardCatalog stories={ summaries } />
